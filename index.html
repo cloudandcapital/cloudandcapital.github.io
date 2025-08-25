@@ -13,7 +13,11 @@
       screens and sit in a three‑column grid on wider displays.  Links open
       externally in new tabs to avoid navigating away from your site.
     -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+    <!-- Import custom fonts: Inter for body, Cinzel for bold serifs, Great Vibes for the decorative ampersand -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Great+Vibes&family=Inter:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="resources/style.css" />
   </head>
   <body>
@@ -32,8 +36,9 @@
 
     <section class="hero">
       <div class="container hero-content">
-        <h2>Building confident cloud finance &amp; growth.</h2>
-        <p>
+        <!-- Display the full logo in the hero to mirror the Cloud &amp; Capital icon vibe -->
+        <img src="resources/logo.png" alt="Cloud &amp; Capital logo" class="hero-image" />
+        <p class="hero-tagline">
           Tools, guides and projects to help you scale SaaS and manage cloud
           costs without surprises.
         </p>

@@ -69,7 +69,7 @@ html {
 }
 
 .title {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cinzel', serif;
   font-size: 32px;
   margin: 0;
 }
@@ -87,9 +87,9 @@ html {
 
 /* Hero section */
 .hero {
-  background: var(--card-bg);
-  padding: 60px 0;
-  border-bottom: 1px solid var(--card-border);
+  background: var(--bg);
+  padding: 80px 0 60px;
+  border-bottom: none;
 }
 
 .hero-content {
@@ -98,21 +98,49 @@ html {
   margin: 0 auto;
 }
 
-.hero h2 {
-  font-family: 'Playfair Display', serif;
-  font-size: 42px;
-  margin: 0 0 16px 0;
+/* Stylised logo in the hero section */
+.hero-logo {
+  font-family: 'Cinzel', serif;
+  font-size: 56px;
+  margin: 0;
+  line-height: 1.1;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
-.hero p {
+.hero-logo .amp {
+  font-family: 'Great Vibes', cursive;
+  font-size: 64px;
+  margin: 0 12px;
+  line-height: 1;
+  display: inline-block;
+}
+
+.hero-logo .cloud-text,
+.hero-logo .capital-text {
+  display: inline-block;
+}
+
+/* Tagline beneath the hero logo */
+.hero-tagline {
   font-size: 18px;
   color: var(--muted);
-  margin: 0;
+  max-width: 600px;
+  margin: 16px auto 0;
+}
+
+/* Full logo image displayed in the hero section */
+.hero-image {
+  width: 240px;
+  height: auto;
+  margin: 0 auto 24px;
+  display: block;
 }
 
 /* Sections */
 .section-title {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cinzel', serif;
   font-size: 28px;
   margin: 40px 0 16px;
 }

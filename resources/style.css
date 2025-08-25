@@ -1,13 +1,4 @@
-/*
-  Cloud & Capital styles
-
-  This stylesheet defines the colors, typography and layout used across
-  the redesigned Cloud & Capital page.  Variables at the top of the file
-  make it easy to tweak the look and feel: background, text, accent and
-  card colours are defined once and referenced throughout.  All
-  components are mobile‑friendly by default with simple media queries
-  providing enhanced layouts on larger screens.
-*/
+/* Core styles for the Cloud & Capital page */
 
 :root {
   /* Colour palette inspired by the Cloud & Capital logo */
@@ -68,30 +59,17 @@ html {
   width: auto;
 }
 
-/* Stylised site title next to the small logo.  We use a decorative serif
-   font for the words and a script font for the ampersand to evoke the
-   Cheque vibe from Canva. */
+/* Stylised site title next to the small logo.  Use the same serif as section titles
+   and uppercase lettering to match the heading style. */
 .site-title {
   font-family: 'Cinzel', serif;
-  font-size: 36px;
+  font-size: 32px;
+  font-weight: 700;
   margin: 0;
   line-height: 1;
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
-}
-
-.site-title .cloud-text,
-.site-title .capital-text {
-  display: inline-block;
-}
-
-.site-title .amp {
-  font-family: 'Great Vibes', cursive;
-  font-size: 44px;
-  margin: 0 8px;
-  line-height: 1;
-  display: inline-block;
+  text-transform: uppercase;
 }
 
 .title {

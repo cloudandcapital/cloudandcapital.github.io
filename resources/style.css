@@ -63,8 +63,7 @@ html {
    and uppercase lettering to match the heading style. */
 .site-title {
   font-family: 'Cinzel', serif;
-  font-size: 32px;
-  font-weight: 700;
+  font-size: 28px; /* match section titles */
   margin: 0;
   line-height: 1;
   display: flex;

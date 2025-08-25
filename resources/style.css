@@ -68,6 +68,32 @@ html {
   width: auto;
 }
 
+/* Stylised site title next to the small logo.  We use a decorative serif
+   font for the words and a script font for the ampersand to evoke the
+   Cheque vibe from Canva. */
+.site-title {
+  font-family: 'Cinzel', serif;
+  font-size: 36px;
+  margin: 0;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.site-title .cloud-text,
+.site-title .capital-text {
+  display: inline-block;
+}
+
+.site-title .amp {
+  font-family: 'Great Vibes', cursive;
+  font-size: 44px;
+  margin: 0 8px;
+  line-height: 1;
+  display: inline-block;
+}
+
 .title {
   font-family: 'Cinzel', serif;
   font-size: 32px;

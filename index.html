@@ -21,29 +21,27 @@
     <link rel="stylesheet" href="resources/style.css" />
   </head>
   <body>
+    <!-- Page header: small logo with stylised title.  The hero section has been removed
+         in favour of a cleaner layout that lists your projects and resources right away. -->
     <header class="site-header">
       <div class="container header-content">
         <div class="brand">
+          <!-- Small cloud logo for brand recognition -->
           <img src="resources/logo.png" alt="Cloud &amp; Capital logo" class="logo" />
-          <h1 class="title">Cloud &amp; Capital</h1>
+          <!-- Stylised site title using a decorative serif and script ampersand.  We
+               approximate the Cheque font with Cinzel (loaded via Google Fonts) and
+               Great Vibes for the ampersand. -->
+          <h1 class="site-title" aria-label="Cloud and Capital">
+            <span class="cloud-text">Cloud</span>
+            <span class="amp">&amp;</span>
+            <span class="capital-text">Capital</span>
+          </h1>
         </div>
-        <nav class="nav">
-          <a href="#projects">Projects</a>
-          <a href="#resources">Resources</a>
-        </nav>
       </div>
     </header>
 
-    <section class="hero">
-      <div class="container hero-content">
-        <!-- Display the full logo in the hero to mirror the Cloud &amp; Capital icon vibe -->
-        <img src="resources/logo.png" alt="Cloud &amp; Capital logo" class="hero-image" />
-        <p class="hero-tagline">
-          Tools, guides and projects to help you scale SaaS and manage cloud
-          costs without surprises.
-        </p>
-      </div>
-    </section>
+    <!-- The hero section has been removed to keep the focus on your projects and
+         resources.  Visitors land directly on the content below. -->
 
     <main class="container">
       <!-- Projects Section -->

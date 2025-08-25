@@ -1,36 +1,228 @@
-:root{
-  --bg:#ffffff;
-  --text:#111111;
-  --muted:#666666;
-  --card:#f6f6f7;
-  --accent:#0f62fe; /* change to your brand color */
-  --border:#e4e4e7;
-  --shadow:0 10px 25px rgba(0,0,0,0.06);
+/*
+  Cloud & Capital styles
+
+  This stylesheet defines the colors, typography and layout used across
+  the redesigned Cloud & Capital page.  Variables at the top of the file
+  make it easy to tweak the look and feel: background, text, accent and
+  card colours are defined once and referenced throughout.  All
+  components are mobile‑friendly by default with simple media queries
+  providing enhanced layouts on larger screens.
+*/
+
+:root {
+  /* Colour palette inspired by the Cloud & Capital logo */
+  --bg: #f5f3ef;       /* warm off‑white background */
+  --text: #1d1c1a;     /* deep charcoal for primary text */
+  --muted: #6c675d;    /* softer grey‑brown for secondary copy */
+  --accent: #1d1c1a;   /* dark accent used for buttons and links */
+  --card-bg: #ffffff;  /* white cards stand out subtly from the off‑white page */
+  --card-border: #e5e1dc; /* light border between cards and background */
+  --tag-bg: #efe9e4;   /* gentle beige tag background */
+  --tag-text: #1d1c1a; /* tag text stays consistent with accent */
 }
-*{box-sizing:border-box}
-html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif}
-.wrap{max-width:1040px;margin:48px auto;padding:0 20px}
-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;gap:16px;flex-wrap:wrap}
-.brand{display:flex;align-items:center;gap:12px}
-.brand img{height:28px}
-.brand h1{font-size:18px;margin:0}
-nav a{color:var(--muted);text-decoration:none;margin-left:16px;font-weight:600}
-nav a:hover{color:var(--text)}
-.hero{padding:18px 20px;border:1px solid var(--border);background:var(--card);border-radius:16px;box-shadow:var(--shadow);margin-top:8px}
-.hero h2{margin:0 0 4px 0}
-.hero p{margin:0;color:var(--muted)}
-.section{margin-top:28px}
-.section h3{margin:0 0 8px 0}
-.grid{display:grid;grid-template-columns:1fr;gap:16px}
-@media (min-width:760px){.grid{grid-template-columns:1fr 1fr 1fr}}
-.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;box-shadow:var(--shadow)}
-.card h4{margin:0 0 6px 0}
-.card p{margin:0 0 12px 0;color:var(--muted)}
-.btn{display:inline-block;padding:10px 14px;border-radius:10px;border:1px solid var(--border);text-decoration:none;font-weight:600}
-.btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
-.btn + .btn{margin-left:8px}
-.badge{display:inline-block;font-size:12px;padding:2px 8px;border-radius:999px;background:#eef2ff;color:#3730a3;border:1px solid #e0e7ff;margin-left:8px}
-footer{margin:36px 0;color:var(--muted);font-size:14px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
-.kicker{font-size:13px;color:var(--muted);margin-top:6px}
-.small{font-size:13px;color:var(--muted)}
-.sep{height:1px;background:var(--border);margin:24px 0}
+
+/* Universal settings */
+* {
+  box-sizing: border-box;
+}
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Header */
+.site-header {
+  background: var(--bg);
+  border-bottom: 1px solid var(--card-border);
+  padding: 20px 0;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  height: 48px;
+  width: auto;
+}
+
+.title {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  margin: 0;
+}
+
+.nav a {
+  margin-left: 16px;
+  text-decoration: none;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.nav a:hover {
+  color: var(--accent);
+}
+
+/* Hero section */
+.hero {
+  background: var(--card-bg);
+  padding: 60px 0;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.hero-content {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.hero h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 42px;
+  margin: 0 0 16px 0;
+}
+
+.hero p {
+  font-size: 18px;
+  color: var(--muted);
+  margin: 0;
+}
+
+/* Sections */
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  margin: 40px 0 16px;
+}
+
+/* Card grid */
+.cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+@media (min-width: 700px) {
+  .cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+  min-height: 220px;
+}
+
+.card h3 {
+  margin: 0 0 8px 0;
+  font-size: 20px;
+  line-height: 1.3;
+}
+
+.card p {
+  margin: 0 0 16px 0;
+  color: var(--muted);
+  flex-grow: 1;
+}
+
+/* Tags */
+.tag {
+  display: inline-block;
+  background: var(--tag-bg);
+  color: var(--tag-text);
+  border-radius: 999px;
+  font-size: 12px;
+  padding: 3px 8px;
+  margin-left: 8px;
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 10px 14px;
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  color: var(--accent);
+  margin-right: 8px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.btn.primary {
+  background: var(--accent);
+  color: #ffffff;
+}
+
+.btn:hover {
+  background: var(--accent);
+  color: #ffffff;
+}
+
+.actions {
+  margin-top: auto;
+}
+
+/* Footer */
+.site-footer {
+  background: var(--bg);
+  border-top: 1px solid var(--card-border);
+  padding: 24px 0;
+  margin-top: 60px;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  font-size: 14px;
+  gap: 12px;
+}
+
+.footer-links a {
+  color: var(--accent);
+  text-decoration: none;
+  margin-left: 10px;
+}
+
+.footer-links a:first-child {
+  margin-left: 0;
+}
+
+.footer-links span {
+  margin-left: 10px;
+}
+
+.last-updated {
+  font-size: 14px;
+  color: var(--muted);
+  margin-top: 16px;
+}

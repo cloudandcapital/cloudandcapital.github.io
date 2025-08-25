@@ -1,94 +1,226 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Cloud & Capital — Projects & Resources</title>
-  <meta name="description" content="Cloud & Capital: FinOps and SaaS scaling projects and free resources by Diana." />
-  <link rel="preload" href="resources/style.css" as="style">
-  <link rel="stylesheet" href="resources/style.css" />
-</head>
-<body>
-  <div class="wrap">
-    <header>
-      <div class="brand">
-        <img src="resources/logo.svg" alt="Cloud & Capital logo" />
-        <h1>Cloud &amp; Capital</h1>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cloud &amp; Capital</title>
+    <!--
+      This page is a redesign of the Cloud & Capital GitHub Pages site.  It
+      intentionally pairs a refined serif typeface for headings with a clean
+      sans‑serif for body copy.  Colors are pulled from the attached logo to
+      create an airy, off‑white backdrop with dark accents.  The layout
+      prioritises readability and responsiveness: cards stack on smaller
+      screens and sit in a three‑column grid on wider displays.  Links open
+      externally in new tabs to avoid navigating away from your site.
+    -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="resources/style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-content">
+        <div class="brand">
+          <img src="resources/logo.png" alt="Cloud &amp; Capital logo" class="logo" />
+          <h1 class="title">Cloud &amp; Capital</h1>
+        </div>
+        <nav class="nav">
+          <a href="#projects">Projects</a>
+          <a href="#resources">Resources</a>
+        </nav>
       </div>
-      <nav>
-        <a href="#projects">Projects</a>
-        <a href="#resources">Resources</a>
-      </nav>
     </header>
 
     <section class="hero">
-      <h2>Projects &amp; Resources</h2>
-      <p>One hub for the things I build and the tools I share — focused on FinOps and scaling SaaS without surprises.</p>
-      <div class="kicker">Tip: change the accent color in <code>resources/style.css</code> (the <code>--accent</code> variable).</div>
-    </section>
-
-    <section id="projects" class="section">
-      <h3>Projects</h3>
-      <div class="grid">
-        <article class="card">
-          <h4>FinOps Lite <span class="badge">Open Source</span></h4>
-          <p>CLI concept for AWS cost checks: CSV export, idle-resource audit, simple trends.</p>
-          <a class="btn primary" href="YOUR_GITHUB_REPO_LINK" target="_blank" rel="noopener">View on GitHub</a>
-          <a class="btn" href="YOUR_README_OR_DEMO_LINK" target="_blank" rel="noopener">Docs / Demo</a>
-        </article>
-
-        <article class="card">
-          <h4>Cloud &amp; Capital (Substack) <span class="badge">Writing</span></h4>
-          <p>Explainers, checklists, and builder‑friendly notes on cloud finance &amp; scaling.</p>
-          <a class="btn primary" href="https://cloudandcapital.substack.com/" target="_blank" rel="noopener">Visit Substack</a>
-          <a class="btn" href="YOUR_FEATURED_POST_LINK" target="_blank" rel="noopener">Featured Post</a>
-        </article>
-
-        <article class="card">
-          <h4>Portfolio / Case Studies <span class="badge">Work</span></h4>
-          <p>Selected writeups and mini‑case studies to show how I approach FinOps problems.</p>
-          <a class="btn primary" href="YOUR_PORTFOLIO_LINK" target="_blank" rel="noopener">View Portfolio</a>
-          <a class="btn" href="YOUR_RESUME_LINK" target="_blank" rel="noopener">Résumé</a>
-        </article>
+      <div class="container hero-content">
+        <h2>Building confident cloud finance &amp; growth.</h2>
+        <p>
+          Tools, guides and projects to help you scale SaaS and manage cloud
+          costs without surprises.
+        </p>
       </div>
     </section>
 
-    <div class="sep"></div>
+    <main class="container">
+      <!-- Projects Section -->
+      <section id="projects" class="projects">
+        <h2 class="section-title">Projects</h2>
+        <div class="cards">
+          <article class="card">
+            <h3>
+              FinOps Lite
+              <span class="tag">Open Source</span>
+            </h3>
+            <p>
+              CLI concept for AWS cost checks: CSV export, idle‑resource
+              audit, simple trends.
+            </p>
+            <div class="actions">
+              <a
+                class="btn primary"
+                href="YOUR_GITHUB_REPO_LINK"
+                target="_blank"
+                rel="noopener"
+                >View on GitHub</a
+              >
+              <a
+                class="btn"
+                href="YOUR_README_OR_DEMO_LINK"
+                target="_blank"
+                rel="noopener"
+                >Docs / Demo</a
+              >
+            </div>
+          </article>
 
-    <section id="resources" class="section">
-      <h3>Resources</h3>
-      <div class="grid">
-        <article class="card">
-          <h4>SaaS Scale Readiness Checklist <span class="badge">PDF</span></h4>
-          <p>8 questions every builder should answer before scaling. Short, punchy, and printable.</p>
-          <a class="btn primary" href="pdfs/saas_scale_readiness_checklist_latest.pdf">Download PDF</a>
-          <a class="btn" href="https://cloudandcapital.substack.com/" target="_blank" rel="noopener">Read the explainer</a>
-        </article>
+          <article class="card">
+            <h3>
+              Cloud &amp; Capital (Substack)
+              <span class="tag">Writing</span>
+            </h3>
+            <p>
+              Explainers, checklists and builder‑friendly notes on cloud
+              finance &amp; scaling.
+            </p>
+            <div class="actions">
+              <a
+                class="btn primary"
+                href="https://cloudandcapital.substack.com/"
+                target="_blank"
+                rel="noopener"
+                >Visit Substack</a
+              >
+              <a
+                class="btn"
+                href="YOUR_FEATURED_POST_LINK"
+                target="_blank"
+                rel="noopener"
+                >Featured Post</a
+              >
+            </div>
+          </article>
 
-        <article class="card">
-          <h4>Startup vs 10k Users — Stress Test <span class="badge">PDF</span></h4>
-          <p>Side-by-side comparison of starter checks vs scale-stage requirements.</p>
-          <a class="btn primary" href="pdfs/saas_scale_stress_test_comparison_v1.0_2025-08-25.pdf">Download PDF</a>
-          <a class="btn" href="https://cloudandcapital.substack.com/" target="_blank" rel="noopener">Post (coming soon)</a>
-        </article>
+          <article class="card">
+            <h3>
+              Portfolio / Case Studies
+              <span class="tag">Work</span>
+            </h3>
+            <p>
+              Selected writeups and mini‑case studies to show how I
+              approach FinOps problems.
+            </p>
+            <div class="actions">
+              <a
+                class="btn primary"
+                href="YOUR_PORTFOLIO_LINK"
+                target="_blank"
+                rel="noopener"
+                >View Portfolio</a
+              >
+              <a
+                class="btn"
+                href="YOUR_RESUME_LINK"
+                target="_blank"
+                rel="noopener"
+                >Résumé</a
+              >
+            </div>
+          </article>
+        </div>
+      </section>
 
-        <article class="card">
-          <h4>More Coming Soon <span class="badge">Toolkit</span></h4>
-          <p>Cheat sheets, dashboards, and templates to help teams ship with confidence.</p>
-          <a class="btn" href="mailto:YOUR_EMAIL?subject=Cloud%20%26%20Capital%20Resources">Suggest a resource</a>
-        </article>
-      </div>
-      <p class="small">Last updated: 2025‑08‑25</p>
-    </section>
+      <!-- Resources Section -->
+      <section id="resources" class="resources">
+        <h2 class="section-title">Resources</h2>
+        <div class="cards">
+          <article class="card">
+            <h3>
+              SaaS Scale Readiness Checklist
+              <span class="tag">PDF</span>
+            </h3>
+            <p>
+              Eight questions every builder should answer before scaling.
+              Short, punchy and printable.
+            </p>
+            <div class="actions">
+              <a
+                class="btn primary"
+                href="pdfs/saas_scale_readiness_checklist_latest.pdf"
+                target="_blank"
+                rel="noopener"
+                >Download PDF</a
+              >
+              <a
+                class="btn"
+                href="https://cloudandcapital.substack.com/"
+                target="_blank"
+                rel="noopener"
+                >Read the explainer</a
+              >
+            </div>
+          </article>
 
-    <footer>
-      <div>© Cloud &amp; Capital</div>
-      <div>
-        <a class="small" href="https://cloudandcapital.substack.com/" target="_blank" rel="noopener">Subscribe on Substack</a>
-        &nbsp;•&nbsp;
-        <a class="small" href="https://twitter.com/" target="_blank" rel="noopener">Follow on X/Twitter</a>
+          <article class="card">
+            <h3>
+              Startup vs 10k Users — Stress Test
+              <span class="tag">PDF</span>
+            </h3>
+            <p>
+              Side‑by‑side comparison of starter checks vs scale‑stage
+              requirements.
+            </p>
+            <div class="actions">
+              <a
+                class="btn primary"
+                href="pdfs/saas_scale_stress_test_comparison_v1.0_2025-08-25.pdf"
+                target="_blank"
+                rel="noopener"
+                >Download PDF</a
+              >
+              <a
+                class="btn"
+                href="https://cloudandcapital.substack.com/"
+                target="_blank"
+                rel="noopener"
+                >Post (coming soon)</a
+              >
+            </div>
+          </article>
+
+          <article class="card">
+            <h3>
+              More Coming Soon
+              <span class="tag">Toolkit</span>
+            </h3>
+            <p>
+              Cheat sheets, dashboards and templates to help teams ship
+              with confidence.
+            </p>
+            <div class="actions">
+              <a
+                class="btn"
+                href="mailto:YOUR_EMAIL?subject=Cloud%20%26%20Capital%20Resources"
+                >Suggest a resource</a
+              >
+            </div>
+          </article>
+        </div>
+        <p class="last-updated">Last updated: 2025‑08‑25</p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-content">
+        <div>© Cloud &amp; Capital</div>
+        <div class="footer-links">
+          <a href="https://cloudandcapital.substack.com/" target="_blank" rel="noopener"
+            >Subscribe on Substack</a
+          >
+          <span>|</span>
+          <a href="https://twitter.com/" target="_blank" rel="noopener"
+            >Follow on X/Twitter</a
+          >
+        </div>
       </div>
     </footer>
-  </div>
-</body>
+  </body>
 </html>

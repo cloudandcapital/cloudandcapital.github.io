@@ -11,7 +11,7 @@
 
 :root {
   /* Colour palette inspired by the Cloud & Capital logo */
-  --bg: #f5f3ef;       /* warm off‑white background */
+  --bg: #f5eee9;       /* match the logo background */
   --text: #1d1c1a;     /* deep charcoal for primary text */
   --muted: #6c675d;    /* softer grey‑brown for secondary copy */
   --accent: #1d1c1a;   /* dark accent used for buttons and links */

@@ -1,0 +1,36 @@
+:root{
+  --bg:#ffffff;
+  --text:#111111;
+  --muted:#666666;
+  --card:#f6f6f7;
+  --accent:#0f62fe; /* change to your brand color */
+  --border:#e4e4e7;
+  --shadow:0 10px 25px rgba(0,0,0,0.06);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif}
+.wrap{max-width:1040px;margin:48px auto;padding:0 20px}
+header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;gap:16px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px}
+.brand img{height:28px}
+.brand h1{font-size:18px;margin:0}
+nav a{color:var(--muted);text-decoration:none;margin-left:16px;font-weight:600}
+nav a:hover{color:var(--text)}
+.hero{padding:18px 20px;border:1px solid var(--border);background:var(--card);border-radius:16px;box-shadow:var(--shadow);margin-top:8px}
+.hero h2{margin:0 0 4px 0}
+.hero p{margin:0;color:var(--muted)}
+.section{margin-top:28px}
+.section h3{margin:0 0 8px 0}
+.grid{display:grid;grid-template-columns:1fr;gap:16px}
+@media (min-width:760px){.grid{grid-template-columns:1fr 1fr 1fr}}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;box-shadow:var(--shadow)}
+.card h4{margin:0 0 6px 0}
+.card p{margin:0 0 12px 0;color:var(--muted)}
+.btn{display:inline-block;padding:10px 14px;border-radius:10px;border:1px solid var(--border);text-decoration:none;font-weight:600}
+.btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.btn + .btn{margin-left:8px}
+.badge{display:inline-block;font-size:12px;padding:2px 8px;border-radius:999px;background:#eef2ff;color:#3730a3;border:1px solid #e0e7ff;margin-left:8px}
+footer{margin:36px 0;color:var(--muted);font-size:14px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.kicker{font-size:13px;color:var(--muted);margin-top:6px}
+.small{font-size:13px;color:var(--muted)}
+.sep{height:1px;background:var(--border);margin:24px 0}

@@ -1,7 +1,7 @@
-name: Cache Substack RSS (UA + retries)
+name: Cache Substack RSS (mirror)
 on:
   schedule:
-    - cron: "17 7 * * *"   # daily at 07:17 UTC
+    - cron: "17 7 * * *"
   workflow_dispatch: {}
 
 permissions:
@@ -14,20 +14,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Fetch Substack RSS (curl with browser UA)
-        id: curl_fetch
+      - name: Fetch from CORS-friendly mirror
         run: |
           set -e
-          UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36"
           curl -L --fail --retry 5 --retry-all-errors --connect-timeout 15 --max-time 120 \
-               -H "User-Agent: $UA" -H "Accept: application/rss+xml,application/xml;q=0.9,*/*;q=0.8" \
-               "https://cloudandcapital.substack.com/feed" -o substack.xml
+               "https://r.jina.ai/http://cloudandcapital.substack.com/feed" -o substack.xml
 
       - name: Commit changes
-        if: success()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add substack.xml
-          git commit -m "chore: update Substack RSS" || echo "No changes to commit"
+          git commit -m "chore: update Substack RSS via mirror" || echo "No changes to commit"
           git push

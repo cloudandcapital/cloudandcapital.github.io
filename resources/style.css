@@ -10,22 +10,28 @@
   --card-border: #e5e1dc; /* light border between cards and background */
   --tag-bg: #efe9e4;   /* gentle beige tag background */
   --tag-text: #1d1c1a; /* tag text stays consistent with accent */
+
+  /* Tell browsers this site is LIGHT themed; prevents auto-darkening */
+  color-scheme: light;
 }
 
 /* Universal settings */
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
-body,
-html {
+html, body {
   margin: 0;
   padding: 0;
   background: var(--bg);
   color: var(--text);
   font-family: 'Inter', sans-serif;
   line-height: 1.6;
+  -webkit-text-size-adjust: 100%;
 }
+
+/* Keep common sections explicitly light (helps on some Android dark modes) */
+.site-header,
+.hero,
+.site-footer { background: var(--bg); }
 
 .container {
   max-width: 1100px;
@@ -35,7 +41,6 @@ html {
 
 /* Header */
 .site-header {
-  background: var(--bg);
   border-bottom: 1px solid var(--card-border);
   padding: 20px 0;
 }
@@ -48,21 +53,13 @@ html {
   gap: 12px;
 }
 
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.logo {
-  height: 48px;
-  width: auto;
-}
+.brand { display: flex; align-items: center; gap: 12px; }
+.logo { height: 48px; width: auto; }
 
 /* Stylised site title next to the small logo */
 .site-title {
   font-family: 'Cinzel', serif;
-  font-size: 28px; 
+  font-size: 28px;
   margin: 0;
   line-height: 1;
   display: flex;
@@ -82,14 +79,10 @@ html {
   color: var(--text);
   font-weight: 600;
 }
-
-.nav a:hover {
-  color: var(--accent);
-}
+.nav a:hover { color: var(--accent); }
 
 /* Hero section */
 .hero {
-  background: var(--bg);
   padding: 80px 0 60px;
   border-bottom: none;
 }
@@ -119,9 +112,7 @@ html {
 }
 
 .hero-logo .cloud-text,
-.hero-logo .capital-text {
-  display: inline-block;
-}
+.hero-logo .capital-text { display: inline-block; }
 
 .hero-tagline {
   font-size: 18px;
@@ -150,11 +141,8 @@ html {
   grid-template-columns: 1fr;
   gap: 24px;
 }
-
 @media (min-width: 700px) {
-  .cards {
-    grid-template-columns: repeat(3, 1fr);
-  }
+  .cards { grid-template-columns: repeat(3, 1fr); }
 }
 
 .card {
@@ -203,24 +191,13 @@ html {
   margin-right: 8px;
   transition: background 0.15s ease, color 0.15s ease;
 }
+.btn.primary { background: var(--accent); color: #ffffff; }
+.btn:hover    { background: var(--accent); color: #ffffff; }
 
-.btn.primary {
-  background: var(--accent);
-  color: #ffffff;
-}
-
-.btn:hover {
-  background: var(--accent);
-  color: #ffffff;
-}
-
-.actions {
-  margin-top: auto;
-}
+.actions { margin-top: auto; }
 
 /* Footer */
 .site-footer {
-  background: var(--bg);
   border-top: 1px solid var(--card-border);
   padding: 24px 0;
   margin-top: 60px;
@@ -239,14 +216,8 @@ html {
   text-decoration: none;
   margin-left: 10px;
 }
-
-.footer-links a:first-child {
-  margin-left: 0;
-}
-
-.footer-links span {
-  margin-left: 10px;
-}
+.footer-links a:first-child { margin-left: 0; }
+.footer-links span { margin-left: 10px; }
 
 .last-updated {
   font-size: 14px;
@@ -283,6 +254,22 @@ html {
   .footer-content { font-size: 12px; }
 }
 
-body {
-  background: var(--bg) !important;
+/* Always keep the cream background, even if the browser tries “auto dark” */
+html, body { background: var(--bg) !important; color: var(--text); }
+
+/* Extra guard for devices in dark mode */
+@media (prefers-color-scheme: dark) {
+  html, body,
+  .site-header, .hero, .site-footer { 
+    background: var(--bg) !important; 
+    color: var(--text) !important; 
+  }
+  .card { 
+    background: var(--card-bg) !important; 
+    border-color: var(--card-border) !important; 
+  }
+  .nav a { color: var(--text) !important; }
+  .btn { border-color: var(--accent) !important; color: var(--accent) !important; }
+  .btn.primary { background: var(--accent) !important; color: #fff !important; }
 }
+

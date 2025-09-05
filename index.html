@@ -71,6 +71,63 @@
 
     footer{margin:52px 0 16px; color:var(--muted); font-size:14px; text-align:center}
     footer .links{display:flex; gap:10px; flex-wrap:wrap; justify-content:center}
+
+/* ===== Mobile polish (safe overrides) ===== */
+
+/* Fluid type so the hero headline scales down nicely */
+.title{
+  font-size: clamp(28px, 6.2vw, 40px);
+  line-height: 1.15;
+}
+
+/* Keep content away from the screen edges on phones */
+@media (max-width: 768px){
+  .wrap{ padding: 22px 16px 56px; }
+}
+
+/* Make the “chips” (Projects/Writing/Core Expertise) easy to tap */
+nav .chip{
+  min-height: 44px;
+  padding: 10px 14px;
+}
+
+/* Hero: stack cleanly and keep avatar from overlapping the title */
+@media (max-width: 900px){
+  .hero{ grid-template-columns: 1fr; }
+}
+@media (max-width: 768px){
+  .hero-primary .avatar{
+    position: static;           /* moves it below the title */
+    display: block;
+    margin: 12px 0 0;
+    width: 64px; height: 64px;
+  }
+}
+
+/* Project cards: flow to 2 cols on tablet, 1 col on phones */
+@media (max-width: 1200px){
+  .grid{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+@media (max-width: 900px){
+  .grid{ grid-template-columns: 1fr; }
+}
+
+/* Images should never overflow */
+img, svg, canvas, video{ max-width:100%; height:auto; }
+.thumb{ max-width: 100%; }   /* override the 360px feel on small screens */
+
+/* Tighter vertical rhythm on small screens */
+@media (max-width: 768px){
+  .card{ padding: 18px; border-radius: 16px; }
+  .section{ margin: 36px 0; }
+  .actions{ gap: 8px; }
+  .subtitle{ font-size: 15px; }
+}
+
+/* Make long “info line” wrap on narrow screens */
+.info-line p{ white-space: normal; }
+
+    
   </style>
 </head>
 <body>
@@ -237,3 +294,4 @@
   </div>
 </body>
 </html>
+

@@ -254,13 +254,20 @@ html, body {
   .footer-content { font-size: 12px; }
 }
 
-/* Always keep the cream background, even if the browser tries “auto dark” */
-html, body { background: var(--bg) !important; color: var(--text); }
+/* ---- Force light theme on devices that auto-darken ---- */
+:root { color-scheme: light; }
 
-/* Extra guard for devices in dark mode */
+/* Always keep the cream background */
+html, body { 
+  background: var(--bg) !important; 
+  color: var(--text) !important; 
+}
+
+/* If the device is in dark mode, still render our light palette */
 @media (prefers-color-scheme: dark) {
   html, body,
-  .site-header, .hero, .site-footer { 
+  .site-header, .hero, .site-footer,
+  .container { 
     background: var(--bg) !important; 
     color: var(--text) !important; 
   }
@@ -272,4 +279,3 @@ html, body { background: var(--bg) !important; color: var(--text); }
   .btn { border-color: var(--accent) !important; color: var(--accent) !important; }
   .btn.primary { background: var(--accent) !important; color: #fff !important; }
 }
-

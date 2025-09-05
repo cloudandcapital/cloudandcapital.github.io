@@ -4,9 +4,9 @@
   /* Colour palette inspired by the Cloud & Capital logo */
   --bg: #f5eee9;       /* match the logo background */
   --text: #1d1c1a;     /* deep charcoal for primary text */
-  --muted: #6c675d;    /* softer grey‑brown for secondary copy */
+  --muted: #6c675d;    /* softer grey-brown for secondary copy */
   --accent: #1d1c1a;   /* dark accent used for buttons and links */
-  --card-bg: #ffffff;  /* white cards stand out subtly from the off‑white page */
+  --card-bg: #ffffff;  /* white cards stand out subtly from the off-white page */
   --card-border: #e5e1dc; /* light border between cards and background */
   --tag-bg: #efe9e4;   /* gentle beige tag background */
   --tag-text: #1d1c1a; /* tag text stays consistent with accent */
@@ -59,11 +59,10 @@ html {
   width: auto;
 }
 
-/* Stylised site title next to the small logo.  Use the same serif as section titles
-   and uppercase lettering to match the heading style. */
+/* Stylised site title next to the small logo */
 .site-title {
   font-family: 'Cinzel', serif;
-  font-size: 28px; /* match section titles */
+  font-size: 28px; 
   margin: 0;
   line-height: 1;
   display: flex;
@@ -101,7 +100,6 @@ html {
   margin: 0 auto;
 }
 
-/* Stylised logo in the hero section */
 .hero-logo {
   font-family: 'Cinzel', serif;
   font-size: 56px;
@@ -125,7 +123,6 @@ html {
   display: inline-block;
 }
 
-/* Tagline beneath the hero logo */
 .hero-tagline {
   font-size: 18px;
   color: var(--muted);
@@ -133,7 +130,6 @@ html {
   margin: 16px auto 0;
 }
 
-/* Full logo image displayed in the hero section */
 .hero-image {
   width: 240px;
   height: auto;
@@ -256,4 +252,33 @@ html {
   font-size: 14px;
   color: var(--muted);
   margin-top: 16px;
+}
+
+/* ===== Mobile polish (safe overrides) ===== */
+
+/* Fluid hero logo + tagline */
+.hero-logo { font-size: clamp(28px, 8vw, 56px); }
+.hero-logo .amp { font-size: clamp(36px, 9vw, 64px); }
+.hero-tagline { font-size: clamp(14px, 3.8vw, 18px); }
+
+/* Cards: 1 column on phones, 2 on tablets */
+@media (max-width: 1100px) {
+  .cards { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 700px) {
+  .cards { grid-template-columns: 1fr; }
+}
+
+/* Tighten hero padding on small screens */
+@media (max-width: 768px) {
+  .hero { padding: 40px 0 40px; }
+  .hero-image { width: 180px; }
+  .section-title { font-size: 22px; }
+  .card { padding: 16px; border-radius: 10px; }
+  .card h3 { font-size: 18px; }
+}
+
+/* Footer font a bit smaller on tiny screens */
+@media (max-width: 480px) {
+  .footer-content { font-size: 12px; }
 }

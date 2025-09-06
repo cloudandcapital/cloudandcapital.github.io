@@ -1,5 +1,6 @@
 "use client";
-import AiAssistantWidget from "@/components/AiAssistantWidget";
+import AiAssistantWidget from "../src/components/AiAssistantWidget";
+
 
 export default function Page() {
   return (

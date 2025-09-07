@@ -300,26 +300,36 @@ img, svg, canvas, video{ max-width:100%; height:auto; }
   <!-- Lumen AI Assistant (embed) -->
 <script>
   (function () {
-    var EMBED_URL = "https://cloudandcapital-github-io.vercel.app/embed"; // 
     var f = document.createElement("iframe");
-    f.src = EMBED_URL;
-    f.title = "Lumen AI Assistant";
-    f.loading = "lazy";
+    f.src = "https://cloudandcapital.github.io/next-widget/embed";
     f.style.position = "fixed";
-    f.style.bottom = "16px";
     f.style.right = "16px";
-    f.style.width = "420px";   // adjust if you want smaller/larger
-    f.style.height = "540px";  // height for the chat panel
+    f.style.bottom = "16px";
     f.style.border = "0";
-    f.style.borderRadius = "16px";
-    f.style.boxShadow = "0 20px 60px rgba(0,0,0,.15)";
-    f.style.zIndex = "2147483647";
+    f.style.zIndex = "9999";
+    // Compact size when closed (button only)
+    f.style.width = "140px";
+    f.style.height = "60px";
+    f.allow = "clipboard-write; clipboard-read";
     document.body.appendChild(f);
+
+    // Grow/Shrink when widget opens/closes
+    window.addEventListener("message", function (e) {
+      if (e.data === "lumen:open") {
+        f.style.width = "420px";
+        f.style.height = "540px";
+      } else if (e.data === "lumen:close") {
+        f.style.width = "140px";
+        f.style.height = "60px";
+      }
+    });
   })();
 </script>
 
+
 </body>
 </html>
+
 
 
 

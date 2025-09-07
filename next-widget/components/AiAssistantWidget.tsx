@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 type Role = "assistant" | "user";
@@ -9,17 +8,36 @@ interface ChatMsg { role: Role; content: string; sources?: Source[] }
 const BG_BEIGE = "#f5eee9";
 const ACCENT_DARK = "#111111";
 
+function LumenIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 100 100"
+      width="28"
+      height="28"
+    >
+      <circle cx="50" cy="50" r="48" fill={BG_BEIGE} stroke={ACCENT_DARK} strokeWidth="2" />
+      <circle cx="35" cy="40" r="6" fill={ACCENT_DARK} />
+      <circle cx="65" cy="40" r="6" fill={ACCENT_DARK} />
+      <path
+        d="M35 65 Q50 80 65 65"
+        stroke={ACCENT_DARK}
+        strokeWidth="4"
+        fill="transparent"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
 export default function AiAssistantWidget({
   ownerName = "Diana",
   brand = "Cloud & Capital",
   autoOpenDelay = 1200,
-  // put the icon in /next-widget/public/lumen-icon.png (or pass a full URL)
-  logoSrc = "/lumen-icon.png",
 }: {
   ownerName?: string;
   brand?: string;
   autoOpenDelay?: number;
-  logoSrc?: string;
 }) {
   const [open, setOpen] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -35,14 +53,18 @@ export default function AiAssistantWidget({
   ];
 
   useEffect(() => {
-    const seen = typeof window !== "undefined" && localStorage.getItem("ai_widget_seen");
+    const seen =
+      typeof window !== "undefined" &&
+      localStorage.getItem("ai_widget_seen");
     if (!seen) {
       const t = setTimeout(() => {
         setOpen(true);
-        setMsgs([{
-          role: "assistant",
-          content: `Hi, I’m Lumen ~ ${ownerName}’s AI assistant. Want to see a demo of her FinOps tools or learn about her cloud architecture projects?`,
-        }]);
+        setMsgs([
+          {
+            role: "assistant",
+            content: `Hi, I’m Lumen ~ ${ownerName}’s AI assistant. Want to see a demo of her FinOps tools or learn about her cloud architecture projects?`,
+          },
+        ]);
         localStorage.setItem("ai_widget_seen", "1");
       }, autoOpenDelay);
       return () => clearTimeout(t);
@@ -51,7 +73,7 @@ export default function AiAssistantWidget({
 
   async function send(q: string) {
     if (!q.trim()) return;
-    setMsgs(m => [...m, { role: "user", content: q }]);
+    setMsgs((m) => [...m, { role: "user", content: q }]);
     setInput("");
     setBusy(true);
 
@@ -64,21 +86,38 @@ export default function AiAssistantWidget({
 
       if (!res.ok) {
         let detail = "";
-        try { const e = (await res.json()) as { error?: string }; detail = e?.error || ""; } catch {}
-        setMsgs(m => [...m, {
-          role: "assistant",
-          content: detail ? `I hit a server error: ${detail}` : `I hit a server error (${res.status}). Try again in a moment.`,
-        }]);
+        try {
+          const e = (await res.json()) as { error?: string };
+          detail = e?.error || "";
+        } catch {}
+        setMsgs((m) => [
+          ...m,
+          {
+            role: "assistant",
+            content: detail
+              ? `I hit a server error: ${detail}`
+              : `I hit a server error (${res.status}). Try again in a moment.`,
+          },
+        ]);
         return;
       }
 
-      const data = (await res.json()) as { answer?: string; sources?: Source[] };
+      const data = (await res.json()) as {
+        answer?: string;
+        sources?: Source[];
+      };
       const text = data?.answer || "Sorry, I didn’t catch that.";
-      const sources = Array.isArray(data?.sources) ? data.sources : undefined;
-      setMsgs(m => [...m, { role: "assistant", content: text, sources }]);
+      const sources = Array.isArray(data?.sources)
+        ? data.sources
+        : undefined;
+      setMsgs((m) => [...m, { role: "assistant", content: text, sources }]);
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "please try again";
-      setMsgs(m => [...m, { role: "assistant", content: `Network error: ${message}` }]);
+      const message =
+        err instanceof Error ? err.message : "please try again";
+      setMsgs((m) => [
+        ...m,
+        { role: "assistant", content: `Network error: ${message}` },
+      ]);
     } finally {
       setBusy(false);
     }
@@ -87,7 +126,7 @@ export default function AiAssistantWidget({
   return (
     <div className="fixed bottom-4 right-4 z-50">
       <button
-        onClick={() => setOpen(o => !o)}
+        onClick={() => setOpen((o) => !o)}
         className="shadow-lg rounded-full px-4 py-3 text-sm font-medium border border-neutral-200"
         style={{ background: BG_BEIGE, color: ACCENT_DARK }}
       >
@@ -98,29 +137,31 @@ export default function AiAssistantWidget({
         <div
           id="ai-widget"
           className="mt-3 w-[380px] max-w-[92vw] rounded-2xl border bg-white"
-          style={{ borderColor: "#e7e2dc", boxShadow: "0 20px 60px rgba(0,0,0,.15)" }}
+          style={{
+            borderColor: "#e7e2dc",
+            boxShadow: "0 20px 60px rgba(0,0,0,.15)",
+          }}
         >
           {/* Header */}
-          <div className="p-4 border-b flex items-center gap-3" style={{ background: BG_BEIGE, borderColor: "#eadfd6" }}>
+          <div
+            className="p-4 border-b flex items-center gap-3"
+            style={{ background: BG_BEIGE, borderColor: "#eadfd6" }}
+          >
             <div
-              className="h-9 w-9 rounded-full overflow-hidden border"
-              style={{ background: BG_BEIGE, borderColor: "#eadfd6" }}
+              className="h-9 w-9 grid place-items-center rounded-full overflow-hidden"
+              style={{ background: "#fff" }}
             >
-              <Image
-                src={logoSrc}
-                alt="Lumen icon"
-                width={36}
-                height={36}
-                priority
-              />
+              <LumenIcon />
             </div>
             <div className="min-w-0">
-              <div className="text-sm font-semibold truncate" style={{ color: ACCENT_DARK }}>
+              <div
+                className="text-sm font-semibold truncate"
+                style={{ color: ACCENT_DARK }}
+              >
                 Lumen ~ {ownerName}’s AI Assistant
               </div>
               <div className="text-xs text-neutral-600 truncate">{brand}</div>
             </div>
-            {/* Kept minimal: no extra toggles */}
           </div>
 
           {/* Suggestions */}
@@ -142,20 +183,30 @@ export default function AiAssistantWidget({
           {/* Messages */}
           <div
             className="p-3 max-h-[320px] overflow-y-auto space-y-2"
-            style={{ background: `linear-gradient(180deg, #ffffff, #ffffff 65%, ${BG_BEIGE} 160%)` }}
+            style={{
+              background: `linear-gradient(180deg, #ffffff, #ffffff 65%, ${BG_BEIGE} 160%)`,
+            }}
           >
             {msgs.map((m, i) => (
-              <div key={i} className={m.role === "assistant" ? "text-sm" : "text-sm text-right"}>
+              <div
+                key={i}
+                className={
+                  m.role === "assistant"
+                    ? "text-sm"
+                    : "text-sm text-right"
+                }
+              >
                 <div
                   className="inline-block rounded-2xl px-3 py-2"
-                  style={m.role === "assistant"
-                    ? { background: "#f4f4f5", color: "#1f1f1f" }
-                    : { background: ACCENT_DARK, color: "white" }}
+                  style={
+                    m.role === "assistant"
+                      ? { background: "#f4f4f5", color: "#1f1f1f" }
+                      : { background: ACCENT_DARK, color: "white" }
+                  }
                 >
                   {m.content}
                 </div>
 
-                {/* Source pills (always if present) */}
                 {m.role === "assistant" && m.sources?.length ? (
                   <div className="mt-2 flex flex-wrap gap-2">
                     {m.sources.map((s, j) => (
@@ -165,7 +216,10 @@ export default function AiAssistantWidget({
                         target="_blank"
                         rel="noreferrer"
                         className="text-[11px] border rounded-full px-2 py-1 hover:underline"
-                        style={{ borderColor: "#e7e2dc", color: ACCENT_DARK }}
+                        style={{
+                          borderColor: "#e7e2dc",
+                          color: ACCENT_DARK,
+                        }}
                       >
                         {s.title}
                       </a>
@@ -176,24 +230,37 @@ export default function AiAssistantWidget({
             ))}
             {!msgs.length && (
               <div className="text-xs text-neutral-500 p-2">
-                Try: “Show me a demo”, “What’s her cloud stack?”, or “Where’s the FinOps CLI?”
+                Try: “Show me a demo”, “What’s her cloud stack?”, or
+                “Where’s the FinOps CLI?”
               </div>
             )}
           </div>
 
           {/* Input */}
           <div className="p-3 border-t" style={{ borderColor: "#eee7e0" }}>
-            <form onSubmit={(e) => { e.preventDefault(); send(input); }} className="flex items-center gap-2">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                send(input);
+              }}
+              className="flex items-center gap-2"
+            >
               <input
                 ref={inputRef}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder={busy ? "Thinking…" : "Ask about her projects…"}
+                placeholder={
+                  busy ? "Thinking…" : "Ask about her projects…"
+                }
                 disabled={busy}
                 className="flex-1 text-sm border rounded-xl px-3 py-2 focus:outline-none focus:ring-2"
                 style={{ borderColor: "#e8e2dc" }}
               />
-              <button disabled={busy} className="text-sm rounded-xl px-3 py-2" style={{ background: ACCENT_DARK, color: "white" }}>
+              <button
+                disabled={busy}
+                className="text-sm rounded-xl px-3 py-2"
+                style={{ background: ACCENT_DARK, color: "white" }}
+              >
                 Send
               </button>
             </form>

@@ -11,7 +11,7 @@
   <title>Cloud & Capital</title>
   <meta name="description" content="Cloud & Capital — Finance × AI × data × cloud. Projects, writing, and tools that turn numbers into strategy." />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="icon" href="cloudandcapital.github.io/resources/cloud-and-capital-icon.png" />
+  <link rel="icon" href="resources/cloud-and-capital-icon.png"/>
   <style>
     :root{ --bg:#F3ECE6; --panel:#ffffff; --ink:#0A0A0A; --muted:#6F6F72; --line:#E9E3DE; }
     *{box-sizing:border-box}
@@ -307,10 +307,19 @@ img, svg, canvas, video{ max-width:100%; height:auto; }
     f.style.bottom = "16px";
     f.style.border = "0";
     f.style.zIndex = "9999";
-    // Compact size when closed (button only)
-    f.style.width = "140px";
-    f.style.height = "60px";
+    f.style.background = "transparent";           // keep iframe transparent
+    f.setAttribute("allowtransparency", "true");  // helps some browsers
+
+    // Closed: give enough room for the button text
+    f.style.width = "200px";
+    f.style.height = "64px";
+
+    // Small quality-of-life: no scrollbars on tiny state
+    f.scrolling = "no";
+
+    // Allow clipboard (optional)
     f.allow = "clipboard-write; clipboard-read";
+
     document.body.appendChild(f);
 
     // Grow/Shrink when widget opens/closes
@@ -318,17 +327,21 @@ img, svg, canvas, video{ max-width:100%; height:auto; }
       if (e.data === "lumen:open") {
         f.style.width = "420px";
         f.style.height = "540px";
+        f.scrolling = "yes";
       } else if (e.data === "lumen:close") {
-        f.style.width = "140px";
-        f.style.height = "60px";
+        f.style.width = "200px";
+        f.style.height = "64px";
+        f.scrolling = "no";
       }
     });
   })();
 </script>
 
 
+
 </body>
 </html>
+
 
 
 

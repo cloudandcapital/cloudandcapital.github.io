@@ -303,44 +303,45 @@ img, svg, canvas, video{ max-width:100%; height:auto; }
     var f = document.createElement("iframe");
     f.src = "https://cloudandcapital.github.io/next-widget/embed";
     f.style.position = "fixed";
-    f.style.right = "16px";
-    f.style.bottom = "16px";
+    f.style.right = "20px";
+    f.style.bottom = "20px";
     f.style.border = "0";
     f.style.zIndex = "9999";
-    f.style.background = "transparent";           // keep iframe transparent
-    f.setAttribute("allowtransparency", "true");  // helps some browsers
-
-    // Closed: give enough room for the button text
-    f.style.width = "200px";
-    f.style.height = "64px";
-
-    // Small quality-of-life: no scrollbars on tiny state
+    f.style.background = "transparent";
+    f.setAttribute("allowtransparency", "true");
+    f.style.overflow = "hidden";
     f.scrolling = "no";
 
-    // Allow clipboard (optional)
-    f.allow = "clipboard-write; clipboard-read";
+    // closed size (just the button)
+    function closedSize() {
+      f.style.width = "168px";
+      f.style.height = "48px";
+      f.scrolling = "no";
+    }
+    // open size (full widget)
+    function openSize() {
+      f.style.width = "420px";
+      f.style.height = "540px";
+      f.scrolling = "yes";
+    }
 
+    closedSize();
     document.body.appendChild(f);
 
-    // Grow/Shrink when widget opens/closes
+    // listen for open/close messages from the widget
     window.addEventListener("message", function (e) {
-      if (e.data === "lumen:open") {
-        f.style.width = "420px";
-        f.style.height = "540px";
-        f.scrolling = "yes";
-      } else if (e.data === "lumen:close") {
-        f.style.width = "200px";
-        f.style.height = "64px";
-        f.scrolling = "no";
-      }
+      if (e.data === "lumen:open") openSize();
+      if (e.data === "lumen:close") closedSize();
     });
   })();
 </script>
 
 
 
+
 </body>
 </html>
+
 
 
 

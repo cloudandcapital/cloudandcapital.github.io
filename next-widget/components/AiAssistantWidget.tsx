@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 type Role = "assistant" | "user";
@@ -12,7 +13,8 @@ export default function AiAssistantWidget({
   ownerName = "Diana",
   brand = "Cloud & Capital",
   autoOpenDelay = 1200,
-  logoSrc = "/logo.png", // put logo in /public/logo.png OR pass a full URL
+  // put the icon in /next-widget/public/lumen-icon.png (or pass a full URL)
+  logoSrc = "/lumen-icon.png",
 }: {
   ownerName?: string;
   brand?: string;
@@ -100,8 +102,17 @@ export default function AiAssistantWidget({
         >
           {/* Header */}
           <div className="p-4 border-b flex items-center gap-3" style={{ background: BG_BEIGE, borderColor: "#eadfd6" }}>
-            <div className="h-9 w-9 grid place-items-center rounded-full overflow-hidden" style={{ background: "#fff" }}>
-              <img src={logoSrc} alt={`${brand} logo`} width={28} height={28} />
+            <div
+              className="h-9 w-9 rounded-full overflow-hidden border"
+              style={{ background: BG_BEIGE, borderColor: "#eadfd6" }}
+            >
+              <Image
+                src={logoSrc}
+                alt="Lumen icon"
+                width={36}
+                height={36}
+                priority
+              />
             </div>
             <div className="min-w-0">
               <div className="text-sm font-semibold truncate" style={{ color: ACCENT_DARK }}>
@@ -109,7 +120,7 @@ export default function AiAssistantWidget({
               </div>
               <div className="text-xs text-neutral-600 truncate">{brand}</div>
             </div>
-            {/* Removed: "Project-aware" & "Show sources" toggle */}
+            {/* Kept minimal: no extra toggles */}
           </div>
 
           {/* Suggestions */}
@@ -129,8 +140,10 @@ export default function AiAssistantWidget({
           </div>
 
           {/* Messages */}
-          <div className="p-3 max-h-[320px] overflow-y-auto space-y-2"
-               style={{ background: `linear-gradient(180deg, #ffffff, #ffffff 65%, ${BG_BEIGE} 160%)` }}>
+          <div
+            className="p-3 max-h-[320px] overflow-y-auto space-y-2"
+            style={{ background: `linear-gradient(180deg, #ffffff, #ffffff 65%, ${BG_BEIGE} 160%)` }}
+          >
             {msgs.map((m, i) => (
               <div key={i} className={m.role === "assistant" ? "text-sm" : "text-sm text-right"}>
                 <div

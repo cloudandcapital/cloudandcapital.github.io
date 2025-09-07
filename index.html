@@ -299,10 +299,27 @@ img, svg, canvas, video{ max-width:100%; height:auto; }
     </footer>
   </div>
   <!-- Lumen AI Assistant (embed) -->
+<style>
+  /* External Ask button (visible when widget is closed) */
+  .lumen-ask-btn {
+    position: fixed; right: 16px; bottom: 16px;
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 14px; border-radius: 999px;
+    border: 1px solid #e5e1dc; background: #fff;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    font: 600 14px/1.2 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    color: #1d1c1a; cursor: pointer; z-index: 9998;
+  }
+  .lumen-ask-btn img { width: 18px; height: 18px; border-radius: 5px; display: block; }
+</style>
+
 <script>
   (function () {
+    // 1) Create the iframe (keeps your postMessage contract)
     var f = document.createElement("iframe");
-    f.src = "https://cloudandcapital.github.io/next-widget/embed";
+    // IMPORTANT: point to a concrete file and add cache-buster
+    f.src = "/next-widget/embed/index.html?v=3";
+    f.title = "Lumen ~ Diana’s AI Assistant";
     f.style.position = "fixed";
     f.style.right = "20px";
     f.style.bottom = "20px";
@@ -313,26 +330,57 @@ img, svg, canvas, video{ max-width:100%; height:auto; }
     f.style.overflow = "hidden";
     f.scrolling = "no";
 
-    // closed size (just the button)
+    // 2) Create the external Ask button (always visible when closed)
+    var btn = document.createElement("button");
+    btn.id = "lumenAsk";
+    btn.className = "lumen-ask-btn";
+    btn.innerHTML = '<img src="resources/cloud-and-capital-icon.png" alt="">Ask Lumen';
+
+    // Closed size (iframe sits behind the button; you won’t see it)
     function closedSize() {
-      f.style.width = "168px";
-      f.style.height = "48px";
-      f.scrolling = "no";
+      f.style.width = "0";
+      f.style.height = "0";
+      f.style.pointerEvents = "none"; // ignore clicks when closed
+      btn.style.display = "inline-flex";
     }
-    // open size (full widget)
+
+    // Open size (full widget panel)
     function openSize() {
       f.style.width = "420px";
       f.style.height = "540px";
-      f.scrolling = "yes";
+      f.style.pointerEvents = "auto";
+      btn.style.display = "none";
     }
 
+    // Mount elements
     closedSize();
     document.body.appendChild(f);
+    document.body.appendChild(btn);
 
-    // listen for open/close messages from the widget
+    // Button → open panel and notify the iframe
+    btn.addEventListener("click", function (e) {
+      e.preventDefault();
+      openSize();
+      try {
+        f.contentWindow && f.contentWindow.postMessage("lumen:open", "*");
+      } catch (_) {}
+    });
+
+    // Listen for close from inside the widget
     window.addEventListener("message", function (e) {
-      if (e.data === "lumen:open") openSize();
-      if (e.data === "lumen:close") closedSize();
+      if (e.data === "lumen:close") {
+        closedSize();
+      } else if (e.data === "lumen:open") {
+        openSize();
+      }
+    });
+
+    // Optional: close on ESC
+    window.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") {
+        try { f.contentWindow && f.contentWindow.postMessage("lumen:close", "*"); } catch (_) {}
+        closedSize();
+      }
     });
   })();
 </script>
@@ -340,8 +388,10 @@ img, svg, canvas, video{ max-width:100%; height:auto; }
 
 
 
+
 </body>
 </html>
+
 
 
 

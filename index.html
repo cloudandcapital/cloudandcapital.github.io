@@ -297,8 +297,30 @@ img, svg, canvas, video{ max-width:100%; height:auto; }
       </div>
     </footer>
   </div>
+  <!-- Lumen AI Assistant (embed) -->
+<script>
+  (function () {
+    var EMBED_URL = "https://<your-vercel-project>.vercel.app/embed"; // <-- replace me
+    var f = document.createElement("iframe");
+    f.src = EMBED_URL;
+    f.title = "Lumen AI Assistant";
+    f.loading = "lazy";
+    f.style.position = "fixed";
+    f.style.bottom = "16px";
+    f.style.right = "16px";
+    f.style.width = "420px";   // adjust if you want smaller/larger
+    f.style.height = "540px";  // height for the chat panel
+    f.style.border = "0";
+    f.style.borderRadius = "16px";
+    f.style.boxShadow = "0 20px 60px rgba(0,0,0,.15)";
+    f.style.zIndex = "2147483647";
+    document.body.appendChild(f);
+  })();
+</script>
+
 </body>
 </html>
+
 
 
 

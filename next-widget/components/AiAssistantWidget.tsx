@@ -1,6 +1,5 @@
 "use client";
-import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 type Role = "assistant" | "user";
 interface Source { title: string; url: string }
@@ -12,15 +11,17 @@ const ACCENT_DARK = "#111111";
 export default function AiAssistantWidget({
   ownerName = "Diana",
   brand = "Cloud & Capital",
-  // Kept for backward compatibility (unused now that auto-open is removed)
-  autoOpenDelay = 1200,
-  // Put the icon in /next-widget/public/lumen-icon.png (or pass a full URL)
-  logoSrc = "/lumen-icon.png",
+  autoOpenDelay = 9999999, // effectively disables auto-open
+  logoSrc = "/lumen-icon.png", // icon should be in /public/lumen-icon.png
+  onOpen,
+  onClose,
 }: {
   ownerName?: string;
   brand?: string;
   autoOpenDelay?: number;
   logoSrc?: string;
+  onOpen?: () => void;
+  onClose?: () => void;
 }) {
   const [open, setOpen] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -35,16 +36,9 @@ export default function AiAssistantWidget({
     "Where’s the FinOps CLI?",
   ];
 
-  // Tell the parent page (the site that embeds the iframe) when we open/close
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      window.parent?.postMessage(open ? "lumen:open" : "lumen:close", "*");
-    }
-  }, [open]);
-
   async function send(q: string) {
     if (!q.trim()) return;
-    setMsgs((m) => [...m, { role: "user", content: q }]);
+    setMsgs(m => [...m, { role: "user", content: q }]);
     setInput("");
     setBusy(true);
 
@@ -57,32 +51,21 @@ export default function AiAssistantWidget({
 
       if (!res.ok) {
         let detail = "";
-        try {
-          const e = (await res.json()) as { error?: string };
-          detail = e?.error || "";
-        } catch {}
-        setMsgs((m) => [
-          ...m,
-          {
-            role: "assistant",
-            content: detail
-              ? `I hit a server error: ${detail}`
-              : `I hit a server error (${res.status}). Try again in a moment.`,
-          },
-        ]);
+        try { const e = (await res.json()) as { error?: string }; detail = e?.error || ""; } catch {}
+        setMsgs(m => [...m, {
+          role: "assistant",
+          content: detail ? `I hit a server error: ${detail}` : `I hit a server error (${res.status}). Try again in a moment.`,
+        }]);
         return;
       }
 
       const data = (await res.json()) as { answer?: string; sources?: Source[] };
       const text = data?.answer || "Sorry, I didn’t catch that.";
       const sources = Array.isArray(data?.sources) ? data.sources : undefined;
-      setMsgs((m) => [...m, { role: "assistant", content: text, sources }]);
+      setMsgs(m => [...m, { role: "assistant", content: text, sources }]);
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "please try again";
-      setMsgs((m) => [
-        ...m,
-        { role: "assistant", content: `Network error: ${message}` },
-      ]);
+      setMsgs(m => [...m, { role: "assistant", content: `Network error: ${message}` }]);
     } finally {
       setBusy(false);
     }
@@ -91,11 +74,15 @@ export default function AiAssistantWidget({
   return (
     <div className="fixed bottom-4 right-4 z-50">
       <button
-        onClick={() => setOpen((o) => !o)}
+        onClick={() => {
+          setOpen(o => {
+            const next = !o;
+            if (next) onOpen?.(); else onClose?.();
+            return next;
+          });
+        }}
         className="shadow-lg rounded-full px-4 py-3 text-sm font-medium border border-neutral-200"
         style={{ background: BG_BEIGE, color: ACCENT_DARK }}
-        aria-expanded={open}
-        aria-controls="ai-widget"
       >
         {open ? "Close assistant" : "Ask Lumen"}
       </button>
@@ -104,10 +91,7 @@ export default function AiAssistantWidget({
         <div
           id="ai-widget"
           className="mt-3 w-[380px] max-w-[92vw] rounded-2xl border bg-white"
-          style={{
-            borderColor: "#e7e2dc",
-            boxShadow: "0 20px 60px rgba(0,0,0,.15)",
-          }}
+          style={{ borderColor: "#e7e2dc", boxShadow: "0 20px 60px rgba(0,0,0,.15)" }}
         >
           {/* Header */}
           <div
@@ -118,19 +102,10 @@ export default function AiAssistantWidget({
               className="h-9 w-9 grid place-items-center rounded-full overflow-hidden"
               style={{ background: "#fff" }}
             >
-              <Image
-                src={logoSrc}
-                alt="Lumen icon"
-                width={36}
-                height={36}
-                priority
-              />
+              <img src={logoSrc} alt="Lumen icon" width={28} height={28} />
             </div>
             <div className="min-w-0">
-              <div
-                className="text-sm font-semibold truncate"
-                style={{ color: ACCENT_DARK }}
-              >
+              <div className="text-sm font-semibold truncate" style={{ color: ACCENT_DARK }}>
                 Lumen ~ {ownerName}’s AI Assistant
               </div>
               <div className="text-xs text-neutral-600 truncate">{brand}</div>
@@ -161,10 +136,7 @@ export default function AiAssistantWidget({
             }}
           >
             {msgs.map((m, i) => (
-              <div
-                key={i}
-                className={m.role === "assistant" ? "text-sm" : "text-sm text-right"}
-              >
+              <div key={i} className={m.role === "assistant" ? "text-sm" : "text-sm text-right"}>
                 <div
                   className="inline-block rounded-2xl px-3 py-2"
                   style={

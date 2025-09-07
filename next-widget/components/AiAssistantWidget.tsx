@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 type Role = "assistant" | "user";
@@ -8,36 +9,18 @@ interface ChatMsg { role: Role; content: string; sources?: Source[] }
 const BG_BEIGE = "#f5eee9";
 const ACCENT_DARK = "#111111";
 
-function LumenIcon() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 100 100"
-      width="28"
-      height="28"
-    >
-      <circle cx="50" cy="50" r="48" fill={BG_BEIGE} stroke={ACCENT_DARK} strokeWidth="2" />
-      <circle cx="35" cy="40" r="6" fill={ACCENT_DARK} />
-      <circle cx="65" cy="40" r="6" fill={ACCENT_DARK} />
-      <path
-        d="M35 65 Q50 80 65 65"
-        stroke={ACCENT_DARK}
-        strokeWidth="4"
-        fill="transparent"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
 export default function AiAssistantWidget({
   ownerName = "Diana",
   brand = "Cloud & Capital",
+  // Kept for backward compatibility (unused now that auto-open is removed)
   autoOpenDelay = 1200,
+  // Put the icon in /next-widget/public/lumen-icon.png (or pass a full URL)
+  logoSrc = "/lumen-icon.png",
 }: {
   ownerName?: string;
   brand?: string;
   autoOpenDelay?: number;
+  logoSrc?: string;
 }) {
   const [open, setOpen] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -52,24 +35,12 @@ export default function AiAssistantWidget({
     "Where’s the FinOps CLI?",
   ];
 
+  // Tell the parent page (the site that embeds the iframe) when we open/close
   useEffect(() => {
-    const seen =
-      typeof window !== "undefined" &&
-      localStorage.getItem("ai_widget_seen");
-    if (!seen) {
-      const t = setTimeout(() => {
-        setOpen(true);
-        setMsgs([
-          {
-            role: "assistant",
-            content: `Hi, I’m Lumen ~ ${ownerName}’s AI assistant. Want to see a demo of her FinOps tools or learn about her cloud architecture projects?`,
-          },
-        ]);
-        localStorage.setItem("ai_widget_seen", "1");
-      }, autoOpenDelay);
-      return () => clearTimeout(t);
+    if (typeof window !== "undefined") {
+      window.parent?.postMessage(open ? "lumen:open" : "lumen:close", "*");
     }
-  }, [autoOpenDelay, ownerName]);
+  }, [open]);
 
   async function send(q: string) {
     if (!q.trim()) return;
@@ -102,18 +73,12 @@ export default function AiAssistantWidget({
         return;
       }
 
-      const data = (await res.json()) as {
-        answer?: string;
-        sources?: Source[];
-      };
+      const data = (await res.json()) as { answer?: string; sources?: Source[] };
       const text = data?.answer || "Sorry, I didn’t catch that.";
-      const sources = Array.isArray(data?.sources)
-        ? data.sources
-        : undefined;
+      const sources = Array.isArray(data?.sources) ? data.sources : undefined;
       setMsgs((m) => [...m, { role: "assistant", content: text, sources }]);
     } catch (err: unknown) {
-      const message =
-        err instanceof Error ? err.message : "please try again";
+      const message = err instanceof Error ? err.message : "please try again";
       setMsgs((m) => [
         ...m,
         { role: "assistant", content: `Network error: ${message}` },
@@ -129,6 +94,8 @@ export default function AiAssistantWidget({
         onClick={() => setOpen((o) => !o)}
         className="shadow-lg rounded-full px-4 py-3 text-sm font-medium border border-neutral-200"
         style={{ background: BG_BEIGE, color: ACCENT_DARK }}
+        aria-expanded={open}
+        aria-controls="ai-widget"
       >
         {open ? "Close assistant" : "Ask Lumen"}
       </button>
@@ -151,7 +118,13 @@ export default function AiAssistantWidget({
               className="h-9 w-9 grid place-items-center rounded-full overflow-hidden"
               style={{ background: "#fff" }}
             >
-              <LumenIcon />
+              <Image
+                src={logoSrc}
+                alt="Lumen icon"
+                width={36}
+                height={36}
+                priority
+              />
             </div>
             <div className="min-w-0">
               <div
@@ -190,11 +163,7 @@ export default function AiAssistantWidget({
             {msgs.map((m, i) => (
               <div
                 key={i}
-                className={
-                  m.role === "assistant"
-                    ? "text-sm"
-                    : "text-sm text-right"
-                }
+                className={m.role === "assistant" ? "text-sm" : "text-sm text-right"}
               >
                 <div
                   className="inline-block rounded-2xl px-3 py-2"
@@ -216,10 +185,7 @@ export default function AiAssistantWidget({
                         target="_blank"
                         rel="noreferrer"
                         className="text-[11px] border rounded-full px-2 py-1 hover:underline"
-                        style={{
-                          borderColor: "#e7e2dc",
-                          color: ACCENT_DARK,
-                        }}
+                        style={{ borderColor: "#e7e2dc", color: ACCENT_DARK }}
                       >
                         {s.title}
                       </a>
@@ -230,8 +196,7 @@ export default function AiAssistantWidget({
             ))}
             {!msgs.length && (
               <div className="text-xs text-neutral-500 p-2">
-                Try: “Show me a demo”, “What’s her cloud stack?”, or
-                “Where’s the FinOps CLI?”
+                Try: “Show me a demo”, “What’s her cloud stack?”, or “Where’s the FinOps CLI?”
               </div>
             )}
           </div>
@@ -249,9 +214,7 @@ export default function AiAssistantWidget({
                 ref={inputRef}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder={
-                  busy ? "Thinking…" : "Ask about her projects…"
-                }
+                placeholder={busy ? "Thinking…" : "Ask about her projects…"}
                 disabled={busy}
                 className="flex-1 text-sm border rounded-xl px-3 py-2 focus:outline-none focus:ring-2"
                 style={{ borderColor: "#e8e2dc" }}

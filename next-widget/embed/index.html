@@ -5,57 +5,66 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Lumen ~ Diana’s AI Assistant</title>
   <meta name="color-scheme" content="light">
-  <style>
-    :root { --ink:#1d1c1a; --muted:#6c675d; --line:#e5e1dc; --beige:#f7f3ef; --bg:#ffffff; }
-    * { box-sizing:border-box }
-    html,body { margin:0; padding:0; background:var(--bg); color:var(--ink);
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
-    .wrap { height:100vh; display:flex; flex-direction:column; }
-    .head { display:flex; align-items:center; gap:10px; padding:10px 12px; border-bottom:1px solid var(--line); background:var(--beige); }
-    .head img { width:22px; height:22px; border-radius:6px; }
-    .head .t { font-weight:700; font-size:14px; }
-    .body { flex:1; min-height:0; display:flex; flex-direction:column; }
-    .msgs { flex:1; overflow:auto; padding:14px; display:flex; flex-direction:column; gap:10px; }
-    .msg { padding:10px 12px; border:1px solid var(--line); border-radius:12px; max-width:85%; }
-    .me   { align-self:flex-end; background:#fafafa; }
-    .ai   { align-self:flex-start; background:#fff; }
-    .input { display:flex; gap:8px; padding:12px; border-top:1px solid var(--line); background:#fff; }
-    .input input { flex:1; padding:10px 12px; border-radius:999px; border:1px solid var(--line); }
-    .input button { padding:10px 14px; border-radius:999px; border:1px solid var(--line); background:#fff; cursor:pointer; }
-    .muted { color:var(--muted); font-size:12px; }
-  </style>
-</head>
+<style>
+  :root { --ink:#1d1c1a; --muted:#6c675d; --line:#e5e1dc; --beige:#f7f3ef; --bg:#ffffff; }
+  * { box-sizing:border-box }
+  html,body { margin:0; padding:0; background:var(--bg); color:var(--ink);
+    font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+  .wrap { height:100vh; display:flex; flex-direction:column; }
+  .head { display:flex; align-items:center; justify-content:space-between; gap:10px;
+    padding:10px 12px; border-bottom:1px solid var(--line); background:var(--beige); }
+  .left { display:flex; align-items:center; gap:10px; min-width:0 }
+  .left img { width:22px; height:22px; border-radius:6px }
+  .title { font-weight:700; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+  .close-pill { appearance:none; border:1px solid var(--line); background:#fff; color:var(--ink);
+    border-radius:999px; padding:6px 10px; cursor:pointer; font-size:12px; }
+  .body { flex:1; min-height:0; display:flex; flex-direction:column; }
+  .chips { display:flex; flex-wrap:wrap; gap:8px; padding:12px; border-bottom:1px solid var(--line); background:#fff; }
+  .chip { padding:6px 10px; border:1px solid var(--line); border-radius:999px; background:#fff; font-size:12px; cursor:pointer; }
+  .msgs { flex:1; overflow:auto; padding:14px; display:flex; flex-direction:column; gap:10px; background:#fff; }
+  .msg { padding:10px 12px; border:1px solid var(--line); border-radius:12px; max-width:85%; }
+  .me { align-self:flex-end; background:#fafafa; }
+  .ai { align-self:flex-start; background:#fff; }
+  .input { display:flex; gap:8px; padding:12px; border-top:1px solid var(--line); background:#fff; }
+  .input input { flex:1; padding:10px 12px; border-radius:999px; border:1px solid var(--line); }
+  .input button { padding:10px 14px; border-radius:999px; border:1px solid var(--line); background:#fff; cursor:pointer; }
+  .muted { color:var(--muted); font-size:12px; }
+</style>
 <body>
   <div class="wrap">
     <div class="head">
-      <img src="/resources/cloud-and-capital-icon.png" alt="">
-      <div class="t">Lumen ~ Diana’s AI Assistant</div>
+      <div class="left">
+        <img src="/resources/cloud-and-capital-icon.png" alt="">
+        <div class="title">Lumen ~ Diana’s AI Assistant<br><span class="muted" style="font-weight:500">Cloud & Capital</span></div>
+      </div>
+      <button class="close-pill" id="closeBtn">Close assistant</button>
     </div>
-    <div id="msgs" class="msgs">
-      <div class="msg ai">Hi! I’m Lumen. Ask me about your Cloud & Capital projects anytime.</div>
-      <div class="msg ai muted">This is a local placeholder chat. We can connect it to a backend later.</div>
+
+    <div class="body">
+      <div class="chips" id="chips">
+        <button class="chip">Show me a quick demo</button>
+        <button class="chip">What’s her cloud stack?</button>
+        <button class="chip">How does she do cost optimization?</button>
+        <button class="chip">Where’s the FinOps CLI?</button>
+      </div>
+
+      <div id="msgs" class="msgs">
+        <div class="msg ai">Hi! I’m Lumen. Ask me about your Cloud & Capital projects anytime.</div>
+        <div class="msg ai muted">This is a local placeholder chat. We can connect it to a backend later.</div>
+      </div>
+
+      <form class="input" id="form">
+        <input id="q" type="text" placeholder="Ask about her projects…" autocomplete="off" />
+        <button type="submit">Send</button>
+      </form>
     </div>
-    <form class="input" id="form">
-      <input id="q" type="text" placeholder="Type a message…" autocomplete="off" />
-      <button type="submit">Send</button>
-    </form>
   </div>
 
   <script>
     const form = document.getElementById('form');
     const q = document.getElementById('q');
     const msgs = document.getElementById('msgs');
-
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const text = (q.value || '').trim();
-      if (!text) return;
-      add('me', text);
-      q.value = '';
-
-      // fake reply for now
-      setTimeout(() => add('ai', "Got it! (demo reply)"), 600);
-    });
+    const chips = document.getElementById('chips');
 
     function add(who, text) {
       const div = document.createElement('div');
@@ -65,6 +74,27 @@
       msgs.scrollTop = msgs.scrollHeight;
     }
 
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const text = (q.value || '').trim();
+      if (!text) return;
+      add('me', text);
+      q.value = '';
+      setTimeout(() => add('ai', "Got it! (demo reply)"), 500);
+    });
+
+    chips.addEventListener('click', (e) => {
+      const b = e.target.closest('button');
+      if (!b) return;
+      add('me', b.textContent);
+      setTimeout(() => add('ai', "Here’s how I’d answer that in the real assistant… (demo)"), 500);
+    });
+
+    // Close button -> tell parent to collapse
+    document.getElementById('closeBtn')?.addEventListener('click', () => {
+      try { window.parent?.postMessage('lumen:close', '*'); } catch {}
+    });
   </script>
 </body>
+
 </html>

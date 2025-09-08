@@ -1,0 +1,12 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Lumen Embed</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<div style="font-family:Inter,system-ui;padding:16px">
+  <b>Lumen placeholder</b><br>
+  If you see this, the path works. Replace me with the exported widget later.
+</div>
+<script>
+  // Let the parent page know we're \"open\" so it can resize/hide its external button.
+  try { window.parent?.postMessage("lumen:open", "*"); } catch (e) {}
+</script>

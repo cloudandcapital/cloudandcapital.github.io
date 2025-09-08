@@ -315,9 +315,7 @@ img, svg, canvas, video{ max-width:100%; height:auto; }
 
 <script>
   (function () {
-    // 1) Create the iframe (keeps your postMessage contract)
     var f = document.createElement("iframe");
-    // IMPORTANT: point to a concrete file and add cache-buster
     f.src = "/next-widget/embed/index.html?v=3";
     f.title = "Lumen ~ Diana’s AI Assistant";
     f.style.position = "fixed";
@@ -330,21 +328,18 @@ img, svg, canvas, video{ max-width:100%; height:auto; }
     f.style.overflow = "hidden";
     f.scrolling = "no";
 
-    // 2) Create the external Ask button (always visible when closed)
+    // External Ask button
     var btn = document.createElement("button");
     btn.id = "lumenAsk";
     btn.className = "lumen-ask-btn";
-    btn.innerHTML = '<img src="next-widget/public/lumen-icon.png" alt="">Ask Lumen';
+    btn.innerHTML = '<img src="resources/cloud-and-capital-icon.png" alt="">Ask Lumen';
 
-    // Closed size (iframe sits behind the button; you won’t see it)
     function closedSize() {
       f.style.width = "0";
       f.style.height = "0";
-      f.style.pointerEvents = "none"; // ignore clicks when closed
+      f.style.pointerEvents = "none";
       btn.style.display = "inline-flex";
     }
-
-    // Open size (full widget panel)
     function openSize() {
       f.style.width = "420px";
       f.style.height = "540px";
@@ -352,33 +347,30 @@ img, svg, canvas, video{ max-width:100%; height:auto; }
       btn.style.display = "none";
     }
 
-    // Mount elements
     closedSize();
     document.body.appendChild(f);
     document.body.appendChild(btn);
 
-    // Button → open panel and notify the iframe
+    // Open only on user click
     btn.addEventListener("click", function (e) {
       e.preventDefault();
       openSize();
-      try {
-        f.contentWindow && f.contentWindow.postMessage("lumen:open", "*");
-      } catch (_) {}
+      // (Optional: tell the iframe we opened)
+      try { f.contentWindow?.postMessage("lumen:open", "*"); } catch (_) {}
     });
 
-    // Listen for close from inside the widget
+    // IMPORTANT CHANGE: ignore 'lumen:open' so it won't auto-open
     window.addEventListener("message", function (e) {
       if (e.data === "lumen:close") {
         closedSize();
-      } else if (e.data === "lumen:open") {
-        openSize();
       }
+      // do nothing on 'lumen:open'
     });
 
-    // Optional: close on ESC
+    // Close on ESC
     window.addEventListener("keydown", function (e) {
       if (e.key === "Escape") {
-        try { f.contentWindow && f.contentWindow.postMessage("lumen:close", "*"); } catch (_) {}
+        try { f.contentWindow?.postMessage("lumen:close", "*"); } catch (_) {}
         closedSize();
       }
     });
@@ -391,6 +383,7 @@ img, svg, canvas, video{ max-width:100%; height:auto; }
 
 </body>
 </html>
+
 
 
 

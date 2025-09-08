@@ -1,15 +1,9 @@
-// next.config.ts
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  eslint: {
-    // 🚀 Unblock Vercel build by skipping ESLint errors in production builds
-    ignoreDuringBuilds: true,
-  },
-  // (optional safety net if TS ever complains during build)
-  typescript: {
-    ignoreBuildErrors: true,
-  },
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  output: 'export',
+  images: { unoptimized: true },
+  trailingSlash: true, // ensures /embed/ produces /embed/index.html
 };
 
-export default nextConfig;
+module.exports = nextConfig;
+

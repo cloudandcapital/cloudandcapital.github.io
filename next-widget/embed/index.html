@@ -1,12 +1,72 @@
 <!doctype html>
-<meta charset="utf-8">
-<title>Lumen Embed</title>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<div style="font-family:Inter,system-ui;padding:16px">
-  <b>Lumen placeholder</b><br>
-  If you see this, the path works. Replace me with the exported widget later.
-</div>
-<script>
-  // Let the parent page know we're \"open\" so it can resize/hide its external button.
-  try { window.parent?.postMessage("lumen:open", "*"); } catch (e) {}
-</script>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lumen ~ Diana’s AI Assistant</title>
+  <meta name="color-scheme" content="light">
+  <style>
+    :root { --ink:#1d1c1a; --muted:#6c675d; --line:#e5e1dc; --beige:#f7f3ef; --bg:#ffffff; }
+    * { box-sizing:border-box }
+    html,body { margin:0; padding:0; background:var(--bg); color:var(--ink);
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+    .wrap { height:100vh; display:flex; flex-direction:column; }
+    .head { display:flex; align-items:center; gap:10px; padding:10px 12px; border-bottom:1px solid var(--line); background:var(--beige); }
+    .head img { width:22px; height:22px; border-radius:6px; }
+    .head .t { font-weight:700; font-size:14px; }
+    .body { flex:1; min-height:0; display:flex; flex-direction:column; }
+    .msgs { flex:1; overflow:auto; padding:14px; display:flex; flex-direction:column; gap:10px; }
+    .msg { padding:10px 12px; border:1px solid var(--line); border-radius:12px; max-width:85%; }
+    .me   { align-self:flex-end; background:#fafafa; }
+    .ai   { align-self:flex-start; background:#fff; }
+    .input { display:flex; gap:8px; padding:12px; border-top:1px solid var(--line); background:#fff; }
+    .input input { flex:1; padding:10px 12px; border-radius:999px; border:1px solid var(--line); }
+    .input button { padding:10px 14px; border-radius:999px; border:1px solid var(--line); background:#fff; cursor:pointer; }
+    .muted { color:var(--muted); font-size:12px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="head">
+      <img src="/resources/cloud-and-capital-icon.png" alt="">
+      <div class="t">Lumen ~ Diana’s AI Assistant</div>
+    </div>
+    <div id="msgs" class="msgs">
+      <div class="msg ai">Hi! I’m Lumen. Ask me about your Cloud & Capital projects anytime.</div>
+      <div class="msg ai muted">This is a local placeholder chat. We can connect it to a backend later.</div>
+    </div>
+    <form class="input" id="form">
+      <input id="q" type="text" placeholder="Type a message…" autocomplete="off" />
+      <button type="submit">Send</button>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('form');
+    const q = document.getElementById('q');
+    const msgs = document.getElementById('msgs');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const text = (q.value || '').trim();
+      if (!text) return;
+      add('me', text);
+      q.value = '';
+
+      // fake reply for now
+      setTimeout(() => add('ai', "Got it! (demo reply)"), 600);
+    });
+
+    function add(who, text) {
+      const div = document.createElement('div');
+      div.className = 'msg ' + who;
+      div.textContent = text;
+      msgs.appendChild(div);
+      msgs.scrollTop = msgs.scrollHeight;
+    }
+
+    // let parent know we're open
+    try { window.parent?.postMessage("lumen:open", "*"); } catch {}
+  </script>
+</body>
+</html>

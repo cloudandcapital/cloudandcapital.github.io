@@ -336,7 +336,9 @@ img, svg, canvas, video{ max-width:100%; height:auto; }
     var btn = document.createElement("button");
     btn.id = "lumenAsk";
     btn.className = "lumen-ask-btn";
-    btn.innerHTML = '<img src="/resources/lumen-icon.png?v=1" alt="Lumen">';
+    btn.innerHTML = '<img src="/resources/lumen-icon.png?v=1" alt="Lumen"><span class="label">Ask Lumen</span>';
+btn.setAttribute('aria-label','Ask Lumen');
+btn.type = 'button';
 
     // --- Open/close + pointer events ---
     function closedSize() {
@@ -423,6 +425,7 @@ img, svg, canvas, video{ max-width:100%; height:auto; }
 
 </body>
 </html>
+
 
 
 

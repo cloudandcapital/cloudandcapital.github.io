@@ -90,12 +90,36 @@
       msgs.scrollTop = msgs.scrollHeight;
     }
 
-    // Send to API
+    // Send to API (with two special-case overrides)
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const text = (q.value || '').trim();
       if (!text) return;
+
       add('me', text);
+
+      // --- Special cases (no API call) ---
+      if (/finops\s*cli/i.test(text)) {
+        addHtml(
+          `FinOps Lite is a lightweight CLI that parses AWS Cost Explorer exports to surface spend by service, last-30-day totals, and quick savings insights (idle EC2, unattached EBS, unused Elastic IPs). It emphasizes clean tagging and fast CSV exports for finance-minded engineers.<br>
+           <a class="btn" href="https://github.com/dianuhs/finops-lite" target="_blank" rel="noopener">Open FinOps Lite ↗</a>`
+        );
+        q.value = '';
+        history.push({ role: "assistant", content: "Shared FinOps Lite summary + link." });
+        return;
+      }
+
+      if (/quick\s*demo/i.test(text)) {
+        addHtml(
+          `Here’s a quick demo to explore: <b>Cloud Cost Guard</b> — a React dashboard prototype that visualizes AWS cost data and talks to a FastAPI backend.<br>
+           <a class="btn" href="https://guard.cloudandcapital.com/" target="_blank" rel="noopener">Open Cloud Cost Guard ↗</a>`
+        );
+        q.value = '';
+        history.push({ role: "assistant", content: "Shared Cloud Cost Guard demo link." });
+        return;
+      }
+      // -----------------------------------
+
       history.push({ role: "user", content: text });
       q.value = '';
 
@@ -123,32 +147,12 @@
       }
     });
 
-    // Chips: two with summary+button, others just prefill
+    // Chips: click → submit same as typing
     chips.addEventListener('click', (e) => {
       const b = e.target.closest('button');
       if (!b) return;
-      const label = b.textContent.trim();
-      add('me', label);
-
-      if (/FinOps CLI/i.test(label)) {
-        addHtml(
-          `FinOps Lite is a lightweight CLI that parses AWS Cost Explorer exports to surface spend by service, last-30-day totals, and quick savings insights (idle EC2, unattached EBS, unused Elastic IPs). It emphasizes clean tagging and fast CSV exports for finance-minded engineers.<br>
-           <a class="btn" href="https://github.com/dianuhs/finops-lite" target="_blank" rel="noopener">Open FinOps Lite ↗</a>`
-        );
-        return;
-      }
-
-      if (/quick demo/i.test(label)) {
-        addHtml(
-          `Here’s a quick demo you can explore: Cloud Cost Guard — a React dashboard prototype that visualizes AWS cost data and talks to a FastAPI backend.<br>
-           <a class="btn" href="https://guard.cloudandcapital.com/" target="_blank" rel="noopener">Open Cloud Cost Guard ↗</a>`
-        );
-        return;
-      }
-
-      // Other chips prefill input for a real LLM reply
-      q.value = label;
-      q.focus();
+      q.value = b.textContent.trim();
+      form.dispatchEvent(new Event('submit', { cancelable: true }));
     });
 
     // Close button -> tell parent to collapse
@@ -158,3 +162,4 @@
   </script>
 </body>
 </html>
+

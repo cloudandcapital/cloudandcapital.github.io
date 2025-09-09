@@ -300,7 +300,6 @@ img, svg, canvas, video{ max-width:100%; height:auto; }
   </div>
   <!-- Lumen AI Assistant (embed) -->
 <style>
-  /* Ask Lumen pill button */
   .lumen-ask-btn {
     position: fixed; right: 16px; bottom: 16px;
     display: inline-flex; align-items: center; gap: 8px;
@@ -308,7 +307,7 @@ img, svg, canvas, video{ max-width:100%; height:auto; }
     border: 1px solid #e5e1dc; background: #fff;
     box-shadow: 0 6px 18px rgba(0,0,0,0.08);
     font: 600 14px/1.2 Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-    color: #1d1c1a; cursor: pointer; z-index: 9998;
+    color: #1d1c1a; cursor: pointer; z-index: 2147483645;
   }
   .lumen-ask-btn img { width: 18px; height: 18px; border-radius: 5px; display: block; }
 </style>
@@ -317,58 +316,96 @@ img, svg, canvas, video{ max-width:100%; height:auto; }
   (function () {
     // --- Create iframe ---
     var f = document.createElement("iframe");
-    f.src = "/next-widget/embed/index.html?v=8";       // bump to bust cache
+    f.src = "/next-widget/embed/index.html?v=9"; // cache-bust
     f.title = "Lumen ~ Diana’s AI Assistant";
-    f.style.position = "fixed";
-    f.style.right = "20px";
-    f.style.bottom = "20px";
-    f.style.border = "0";
-    f.style.zIndex = "9999";
-    f.style.background = "transparent";
+    Object.assign(f.style, {
+      position: "fixed",
+      right: "20px",
+      bottom: "20px",
+      border: "0",
+      zIndex: "2147483647",          // MAX z-index
+      background: "transparent",
+      overflow: "hidden",
+      display: "block"
+    });
     f.allow = "clipboard-write";
     f.setAttribute("allowtransparency", "true");
-    f.style.overflow = "hidden";
     f.scrolling = "no";
 
-    // --- Create external Ask button ---
+    // --- External Ask button ---
     var btn = document.createElement("button");
     btn.id = "lumenAsk";
     btn.className = "lumen-ask-btn";
     btn.innerHTML = '<img src="resources/cloud-and-capital-icon.png" alt="">Ask Lumen';
 
-    // --- Closed/Open sizes + pointer events ---
+    // --- Open/close + pointer events ---
     function closedSize() {
       f.style.width = "0px";
       f.style.height = "0px";
-      f.style.pointerEvents = "none";     // IMPORTANT: ignore clicks when closed
+      f.style.pointerEvents = "none";
       btn.style.display = "inline-flex";
+      restoreObstructions();
     }
     function openSize() {
       f.style.width = "420px";
       f.style.height = "540px";
-      f.style.pointerEvents = "auto";     // IMPORTANT: allow clicks when open
+      f.style.pointerEvents = "auto";
       btn.style.display = "none";
+      disableObstructions();
     }
 
-    // --- Mount, default closed ---
+    // Track temporarily-disabled elements so we can restore later
+    var disabledEls = [];
+    function rectsOverlap(r1, r2) {
+      return !(r2.left > r1.right || r2.right < r1.left || r2.top > r1.bottom || r2.bottom < r1.top);
+    }
+    function disableObstructions() {
+      restoreObstructions(); // just in case
+      var iframeRect = f.getBoundingClientRect();
+      // Look for potentially “overlay” elements
+      var candidates = Array.from(document.querySelectorAll('body *')).filter(function(el){
+        var cs = getComputedStyle(el);
+        if (el === f || el === btn) return false;
+        if (cs.position !== 'fixed' && cs.position !== 'sticky') return false;
+        var zi = parseInt(cs.zIndex || '0', 10);
+        if (isNaN(zi) || zi < 1000) return false; // only high z-index suspects
+        var r = el.getBoundingClientRect();
+        if (r.width === 0 || r.height === 0) return false;
+        return rectsOverlap(iframeRect, r);
+      });
+      candidates.forEach(function(el){
+        var prev = el.style.pointerEvents;
+        el.dataset._lumenPrevPe = prev || '';
+        el.style.pointerEvents = 'none';
+        disabledEls.push(el);
+      });
+    }
+    function restoreObstructions() {
+      disabledEls.forEach(function(el){
+        el.style.pointerEvents = el.dataset._lumenPrevPe || '';
+        delete el.dataset._lumenPrevPe;
+      });
+      disabledEls = [];
+    }
+
+    // Mount closed
     closedSize();
     document.body.appendChild(f);
     document.body.appendChild(btn);
 
-    // --- Open only on user click ---
+    // Open on click
     btn.addEventListener("click", function (e) {
       e.preventDefault();
       openSize();
       try { f.contentWindow && f.contentWindow.postMessage("lumen:open", "*"); } catch (_) {}
     });
 
-    // --- Listen for close from inside the iframe ---
+    // Only respond to 'close' from iframe
     window.addEventListener("message", function (e) {
       if (e.data === "lumen:close") closedSize();
-      // intentionally ignore 'lumen:open' so it never auto-opens
     });
 
-    // --- ESC closes ---
+    // ESC closes
     window.addEventListener("keydown", function (e) {
       if (e.key === "Escape") {
         try { f.contentWindow && f.contentWindow.postMessage("lumen:close", "*"); } catch (_) {}
@@ -383,8 +420,10 @@ img, svg, canvas, video{ max-width:100%; height:auto; }
 
 
 
+
 </body>
 </html>
+
 
 
 

@@ -23,7 +23,7 @@
     .chips { display:flex; flex-wrap:wrap; gap:8px; padding:12px; border-bottom:1px solid var(--line); background:#fff; }
     .chip { padding:6px 10px; border:1px solid var(--line); border-radius:999px; background:#fff; font-size:12px; cursor:pointer; }
     .msgs { flex:1; overflow:auto; padding:14px; display:flex; flex-direction:column; gap:10px; background:#fff; }
-    .msg { padding:10px 12px; border:1px solid var(--line); border-radius:12px; max-width:85%; }
+    .msg { padding:10px 12px; border:1px solid var(--line); border-radius:12px; max-width:85%; white-space:pre-wrap; }
     .me { align-self:flex-end; background:#fafafa; }
     .ai { align-self:flex-start; background:#fff; }
     .input { display:flex; gap:8px; padding:12px; border-top:1px solid var(--line); background:#fff; }
@@ -50,7 +50,7 @@
       </div>
 
       <div id="msgs" class="msgs">
-        <div class="msg ai">Hi! I’m Lumen. How can I help?</div>
+        <!-- Start empty or add your own short greeting if you like -->
       </div>
 
       <form class="input" id="form">
@@ -61,10 +61,12 @@
   </div>
 
   <script>
+    const API_URL = "https://lumen-api-kappa.vercel.app/api/lumen"; // your Vercel API
     const form = document.getElementById('form');
     const q = document.getElementById('q');
     const msgs = document.getElementById('msgs');
     const chips = document.getElementById('chips');
+    const history = []; // {role, content}
 
     function add(who, text) {
       const div = document.createElement('div');
@@ -74,20 +76,45 @@
       msgs.scrollTop = msgs.scrollHeight;
     }
 
-    form.addEventListener('submit', (e) => {
+    // Send to API
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const text = (q.value || '').trim();
       if (!text) return;
       add('me', text);
+      history.push({ role: "user", content: text });
       q.value = '';
-      setTimeout(() => add('ai', "Thanks! I’ll take note."), 500); // neutral demo reply
+
+      // typing indicator
+      const wait = document.createElement('div');
+      wait.className = 'msg ai';
+      wait.textContent = "…";
+      msgs.appendChild(wait);
+      msgs.scrollTop = msgs.scrollHeight;
+
+      try {
+        const r = await fetch(API_URL, {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ messages: history })
+        });
+        const data = await r.json();
+        wait.remove();
+        const reply = data.reply || "Sorry, I didn’t get a response.";
+        add('ai', reply);
+        history.push({ role: "assistant", content: reply });
+      } catch (err) {
+        wait.remove();
+        add('ai', "⚠️ Network error — please try again.");
+      }
     });
 
+    // Chips prefill the input (no canned replies)
     chips.addEventListener('click', (e) => {
       const b = e.target.closest('button');
       if (!b) return;
-      add('me', b.textContent);
-      setTimeout(() => add('ai', "Here’s a quick overview."), 500);
+      q.value = b.textContent.trim();
+      q.focus();
     });
 
     // Close button -> tell parent to collapse
@@ -95,7 +122,7 @@
       try { window.parent?.postMessage('lumen:close', '*'); } catch {}
     });
 
-    // Do NOT auto-open the parent (no 'lumen:open' postMessage here)
+    // (Deliberately no 'lumen:open' postMessage — no auto-open)
   </script>
 </body>
 </html>

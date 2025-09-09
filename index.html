@@ -300,14 +300,14 @@ img, svg, canvas, video{ max-width:100%; height:auto; }
   </div>
   <!-- Lumen AI Assistant (embed) -->
 <style>
-  /* External Ask button (visible when widget is closed) */
+  /* Ask Lumen pill button */
   .lumen-ask-btn {
     position: fixed; right: 16px; bottom: 16px;
     display: inline-flex; align-items: center; gap: 8px;
     padding: 10px 14px; border-radius: 999px;
     border: 1px solid #e5e1dc; background: #fff;
     box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-    font: 600 14px/1.2 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    font: 600 14px/1.2 Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     color: #1d1c1a; cursor: pointer; z-index: 9998;
   }
   .lumen-ask-btn img { width: 18px; height: 18px; border-radius: 5px; display: block; }
@@ -315,8 +315,9 @@ img, svg, canvas, video{ max-width:100%; height:auto; }
 
 <script>
   (function () {
+    // --- Create iframe ---
     var f = document.createElement("iframe");
-    f.src = "/next-widget/embed/index.html?v=6";
+    f.src = "/next-widget/embed/index.html?v=8";       // bump to bust cache
     f.title = "Lumen ~ Diana’s AI Assistant";
     f.style.position = "fixed";
     f.style.right = "20px";
@@ -324,53 +325,53 @@ img, svg, canvas, video{ max-width:100%; height:auto; }
     f.style.border = "0";
     f.style.zIndex = "9999";
     f.style.background = "transparent";
+    f.allow = "clipboard-write";
     f.setAttribute("allowtransparency", "true");
     f.style.overflow = "hidden";
     f.scrolling = "no";
 
-    // External Ask button
+    // --- Create external Ask button ---
     var btn = document.createElement("button");
     btn.id = "lumenAsk";
     btn.className = "lumen-ask-btn";
     btn.innerHTML = '<img src="resources/cloud-and-capital-icon.png" alt="">Ask Lumen';
 
+    // --- Closed/Open sizes + pointer events ---
     function closedSize() {
-      f.style.width = "0";
-      f.style.height = "0";
-      f.style.pointerEvents = "none";
+      f.style.width = "0px";
+      f.style.height = "0px";
+      f.style.pointerEvents = "none";     // IMPORTANT: ignore clicks when closed
       btn.style.display = "inline-flex";
     }
     function openSize() {
       f.style.width = "420px";
       f.style.height = "540px";
-      f.style.pointerEvents = "auto";
+      f.style.pointerEvents = "auto";     // IMPORTANT: allow clicks when open
       btn.style.display = "none";
     }
 
+    // --- Mount, default closed ---
     closedSize();
     document.body.appendChild(f);
     document.body.appendChild(btn);
 
-    // Open only on user click
+    // --- Open only on user click ---
     btn.addEventListener("click", function (e) {
       e.preventDefault();
       openSize();
-      // (Optional: tell the iframe we opened)
-      try { f.contentWindow?.postMessage("lumen:open", "*"); } catch (_) {}
+      try { f.contentWindow && f.contentWindow.postMessage("lumen:open", "*"); } catch (_) {}
     });
 
-    // IMPORTANT CHANGE: ignore 'lumen:open' so it won't auto-open
+    // --- Listen for close from inside the iframe ---
     window.addEventListener("message", function (e) {
-      if (e.data === "lumen:close") {
-        closedSize();
-      }
-      // do nothing on 'lumen:open'
+      if (e.data === "lumen:close") closedSize();
+      // intentionally ignore 'lumen:open' so it never auto-opens
     });
 
-    // Close on ESC
+    // --- ESC closes ---
     window.addEventListener("keydown", function (e) {
       if (e.key === "Escape") {
-        try { f.contentWindow?.postMessage("lumen:close", "*"); } catch (_) {}
+        try { f.contentWindow && f.contentWindow.postMessage("lumen:close", "*"); } catch (_) {}
         closedSize();
       }
     });
@@ -381,8 +382,10 @@ img, svg, canvas, video{ max-width:100%; height:auto; }
 
 
 
+
 </body>
 </html>
+
 
 
 

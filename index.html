@@ -26,14 +26,22 @@
     .brand-title{display:flex;flex-direction:column}
     .brand-title .tt{font-family:'Playfair Display', serif;font-weight:700;letter-spacing:.2px;font-size:22px}
     .brand-title .sub{color:var(--muted);font-size:13px}
-    .cert-badges{display:inline-flex;align-items:center;margin-left:12px;gap:6px;}
-    .cert-badges{display:inline-flex;align-items:center;margin-left:12px;gap:6px;}
-    .cert-badges img {
-    height: 32px;   /* try 28, 30, or 32 to tune sharpness */
-    width: auto;
-    border-radius: 4px;
-    border: 1px solid var(--line);
-    background: #fff;
+    
+/* Badge strip between brand and nav */
+.cert-badges {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.cert-badges img {
+  height: 30px;
+  width: auto;
+  border-radius: 4px;
+  border: none;
+  background: transparent;
 }
 
 
@@ -153,10 +161,12 @@ img, svg, canvas, video{ max-width:100%; height:auto; }
       <div class="brand">
         <img class="logo" src="resources/cloud-and-capital-icon.png" alt="Cloud & Capital logo">
         <div class="brand-title">
-          <div class="tt">CLOUD & CAPITAL<span class="cert-badges"><img src="resources/aws-certified-cloud-practitioner-3.png" alt="AWS Certified Cloud Practitioner badge"><img src="resources/finops-certified-practitioner.3-2.png" alt="FinOps Certified Practitioner badge"></span></div>
+          <div class="tt">CLOUD & CAPITAL</div>
           <div class="sub">Diana ~ finance · AI · data · cloud</div>
         </div>
       </div>
+      <div class="cert-badges"><img src="resources/aws-certified-cloud-practitioner-3.png" alt="AWS Certified Cloud Practitioner badge"><img src="resources/finops-certified-practitioner.3-2.png" alt="FinOps Certified Practitioner badge"></div>
+      
       <nav>
         <a class="chip" href="#projects">Projects</a>
         <a class="chip" href="#writing">Writing</a>
@@ -432,8 +442,6 @@ btn.type = 'button';
 
 </body>
 </html>
-
-
 
 
 

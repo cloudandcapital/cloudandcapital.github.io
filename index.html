@@ -52,23 +52,18 @@
       white-space:nowrap;
     }
 
-    .cert-badges {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 10px;
-  align-items: center;
+   .cert-badges{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:16px;
+      margin:8px 0 32px;  /* more space below the badges */
 }
 
-.cert-badges img {
-  background: #ffffff;
-  border: 1px solid #e6e6e6;
-  border-radius: 10px;
-  padding: 6px 10px;
-  height: 48px; /* Consistent height = designer look */
-  width: auto;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-  object-fit: contain;
-}
+    .cert-badges img{
+      height:88px;          /* slightly larger but still clean */
+      width:auto;
+    }
 
 
     .section{margin:48px 0}
@@ -477,6 +472,7 @@ btn.type = 'button';
 
 </body>
 </html>
+
 
 
 

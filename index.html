@@ -36,20 +36,17 @@
     .title{font-family:'Playfair Display', serif; font-weight:700; font-size:40px; line-height:1.05; margin:6px 0 10px}
     .subtitle{color:var(--muted); max-width:60ch}
 
-    /* >>> Latest work line — made smaller + grey <<< */
     .info-line{
-      text-align:left;
-      color:var(--muted);     /* same grey as “I operate at…” */
-      font-size:11px;         /* smaller text */
-      margin-top:10px;
-      font-weight:400;
-    }
-    .info-line p{
-      margin:0;
-      color:var(--muted);
-      font-size:11px;
-      white-space:normal;     /* allow wrapping on smaller screens */
-    }
+  text-align:left;
+  color:black;
+  font-size:12px;
+  margin-top:10px;
+}
+.info-line p{
+  margin:0;
+  white-space:nowrap;
+}
+
 
     .cert-badges{
       display:flex;
@@ -200,18 +197,32 @@
         </div>
       </div>
       
-<div class="card">
+<div class="card" style="font-size:13px; color:var(--muted);">
   <div class="cert-badges">
     <img src="resources/aws-certified-cloud-practitioner-3.png" alt="AWS Certified Cloud Practitioner badge">
     <img src="resources/finops-certified-practitioner.3-2.png" alt="FinOps Certified Practitioner badge">
   </div>
- <h3>Latest work:</h3>
-<ul>
-  <li><strong>Cloud Cost Guard:</strong> anomaly detection + spend insights for AWS &amp; GCP</li>
-  <li><strong>FinOps Lite:</strong> CLI for quick AWS spend checks / CSV export</li>
-  <li><strong>FinOps AI helpers:</strong> small tools to explain, summarize, or forecast cloud costs</li>
-</ul>
+
+  <h3 style="font-size:14px; color:var(--muted); margin-bottom:6px; font-weight:600;">
+    Latest work:
+  </h3>
+
+  <ul style="margin-top:0; padding-left:18px;">
+    <li style="line-height:1.35;">
+      <strong style="color:var(--ink);">Cloud Cost Guard:</strong>
+      anomaly detection + spend insights for AWS &amp; GCP
+    </li>
+    <li style="line-height:1.35;">
+      <strong style="color:var(--ink);">FinOps Lite:</strong>
+      CLI for quick AWS spend checks / CSV export
+    </li>
+    <li style="line-height:1.35;">
+      <strong style="color:var(--ink);">FinOps AI helpers:</strong>
+      small tools to explain, summarize, or forecast cloud costs
+    </li>
+  </ul>
 </div>
+
 
     </section>
 
@@ -450,6 +461,7 @@ btn.type = 'button';
 
 </body>
 </html>
+
 
 
 

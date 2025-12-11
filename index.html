@@ -13,7 +13,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <link rel="icon" href="resources/cloud-and-capital-icon.png">
 
-  <style>
+    <style>
     :root{ --bg:#F3ECE6; --panel:#ffffff; --ink:#0A0A0A; --muted:#6F6F72; --line:#E9E3DE; }
     *{box-sizing:border-box}
     html,body{margin:0;padding:0;background:var(--bg);color:var(--ink)}
@@ -30,34 +30,38 @@
     .chip{padding:8px 12px;border-radius:999px;border:1px solid var(--line);background:#fff}
     .chip:hover{transform:translateY(-1px)}
 
-    .hero{margin:34px 0 20px; display:grid; grid-template-columns:1.15fr .85fr; gap:22px}
+    .hero{
+      margin:34px 0 20px;
+      display:grid;
+      grid-template-columns:1.15fr .85fr;
+      gap:26px;              /* a little more space between the two cards */
+    }
     @media (max-width:900px){.hero{grid-template-columns:1fr}}
     .card{background:var(--panel); border:1px solid var(--line); border-radius:18px; padding:22px; position:relative}
     .title{font-family:'Playfair Display', serif; font-weight:700; font-size:40px; line-height:1.05; margin:6px 0 10px}
     .subtitle{color:var(--muted); max-width:60ch}
 
     .info-line{
-  text-align:left;
-  color:black;
-  font-size:12px;
-  margin-top:10px;
-}
-.info-line p{
-  margin:0;
-  white-space:nowrap;
-}
-
+      text-align:left;
+      color:black;
+      font-size:12px;
+      margin-top:10px;
+    }
+    .info-line p{
+      margin:0;
+      white-space:nowrap;
+    }
 
     .cert-badges{
       display:flex;
       justify-content:center;
       align-items:center;
       gap:16px;
-      margin:16px 0 20px;
+      margin:8px 0 16px;   /* a bit tighter above/below */
     }
 
     .cert-badges img{
-      height:80px;
+      height:88px;          /* slightly larger but still clean */
       width:auto;
     }
 
@@ -132,6 +136,11 @@
         margin: 12px 0 0;
         width: 64px; height: 64px;
       }
+
+      /* slightly smaller badges on small screens */
+      .cert-badges img{
+        height:72px;
+      }
     }
 
     /* Project cards: flow to 2 cols on tablet, 1 col on phones */
@@ -153,10 +162,8 @@
       .actions{ gap: 8px; }
       .subtitle{ font-size: 15px; }
     }
-
-
-    
   </style>
+
 </head>
 <body>
   <div class="wrap">
@@ -197,31 +204,32 @@
         </div>
       </div>
       
-<div class="card" style="font-size:13px; color:var(--muted);">
+<div class="card" style="font-size:12px; color:var(--muted);">
   <div class="cert-badges">
     <img src="resources/aws-certified-cloud-practitioner-3.png" alt="AWS Certified Cloud Practitioner badge">
     <img src="resources/finops-certified-practitioner.3-2.png" alt="FinOps Certified Practitioner badge">
   </div>
 
-  <h3 style="font-size:14px; color:var(--muted); margin-bottom:6px; font-weight:600;">
-    Latest work:
+  <h3 style="font-size:12px; color:var(--muted); margin-bottom:4px; font-weight:600; text-transform:uppercase; letter-spacing:0.12em;">
+    Latest work
   </h3>
 
   <ul style="margin-top:0; padding-left:18px;">
-    <li style="line-height:1.35;">
-      <strong style="color:var(--ink);">Cloud Cost Guard:</strong>
+    <li style="line-height:1.35; margin-top:2px;">
+      <strong style="color:var(--muted); font-weight:600;">Cloud Cost Guard:</strong>
       anomaly detection + spend insights for AWS &amp; GCP
     </li>
-    <li style="line-height:1.35;">
-      <strong style="color:var(--ink);">FinOps Lite:</strong>
+    <li style="line-height:1.35; margin-top:2px;">
+      <strong style="color:var(--muted); font-weight:600;">FinOps Lite:</strong>
       CLI for quick AWS spend checks / CSV export
     </li>
-    <li style="line-height:1.35;">
-      <strong style="color:var(--ink);">FinOps AI helpers:</strong>
+    <li style="line-height:1.35; margin-top:2px;">
+      <strong style="color:var(--muted); font-weight:600;">FinOps AI helpers:</strong>
       small tools to explain, summarize, or forecast cloud costs
     </li>
   </ul>
 </div>
+
 
 
     </section>
@@ -461,6 +469,7 @@ btn.type = 'button';
 
 </body>
 </html>
+
 
 
 
